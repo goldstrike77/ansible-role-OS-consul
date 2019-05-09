@@ -11,6 +11,7 @@
   win_chocolatey:
     name: 'consul'
     state: 'latest'
+    params: '-config-file="%PROGRAMDATA%\consul\config.json" -config-dir="%PROGRAMDATA%\consul\consul.d" -rejoin -ui -data-dir="%PROGRAMDATA%\consul\data"'
     timeout: '60'
     proxy_url: '{{ os_proxy_server | default(omit,true) }}'
   ignore_errors: yes
