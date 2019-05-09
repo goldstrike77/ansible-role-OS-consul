@@ -1,10 +1,10 @@
 ---
 # General parameters #
-consul_is_install: 'false'
+consul_is_install: false
 consul_datacenter: 'dc01'
-consul_node_role: 'server'
+consul_node_role: 'client'
 consul_version: '1.4.4'
-hashiui_is_install: 'false'
+hashiui_is_install: false
 hashiui_version: '1.0.0'
 consul_path:
   conf: '/etc/consul'

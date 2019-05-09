@@ -12,7 +12,7 @@ Environment=GOMAXPROCS={{ (ansible_processor_vcpus * 0.5 + 1)|int }}
 Environment=GOMAXPROCS=1
 {% endif %}
 Restart=always
-RestartSec=10
+RestartSec=20
 StartLimitInterval=0
 User={{ consul_arg.user }}
 LimitNOFILE={{ consul_arg.ulimit_nofile }}
