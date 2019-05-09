@@ -1,0 +1,80 @@
+---
+- name: Creating consul folder
+  file:
+    dest: '{{ item.value }}'
+    state: directory
+    owner: '{{ consul_arg.user }}'
+    group: '{{ consul_arg.user }}'
+    mode: 0755
+  with_dict:
+    - '{{ consul_path }}'
+
+- name: Creating consul config folder
+  file:
+    path: '{{ consul_path.conf }}/consul.d'
+    state: 'directory'
+    mode: '0755'
+
+- name: Consul configuration file transfer
+  template:
+    src: 'config.json.j2'
+    dest: '{{ consul_path.conf }}/config.json'
+    owner: '{{ consul_arg.user }}'
+    group: '{{ consul_arg.user }}'
+    mode: 0644
+  register: config_update
+  no_log: true
+
+- name: Consul master ACL policy file transfer
+  template:
+    src: 'master.json.j2'
+    dest: '{{ consul_path.conf }}/consul.d/master.json'
+    owner: '{{ consul_arg.user }}'
+    group: '{{ consul_arg.user }}'
+    mode: 0644
+  register: acl_master_update
+  when:
+    - consul_node_role == 'server'
+    - consul_acl_arg.enabled
+  no_log: true
+
+- name: Consul client ACL policy file transfer
+  template:
+    src: 'client.json.j2'
+    dest: '{{ consul_path.conf }}/consul.d/client.json'
+    owner: '{{ consul_arg.user }}'
+    group: '{{ consul_arg.user }}'
+    mode: 0644
+  register: acl_client_update
+  when:
+    - consul_node_role == 'client'
+    - consul_acl_arg.enabled
+  no_log: true
+
+- name: Consul SSL certificate file transfer
+  copy:
+    src: 'ssl'
+    dest: '{{ consul_path.conf }}'
+    owner: '{{ consul_arg.user }}'
+    group: '{{ consul_arg.user }}'
+    mode: 0644
+  register: ssl_update
+  no_log: true
+
+- name: Consul systemd service file transfer
+  template:
+    src: 'consul.service.j2'
+    dest: '/lib/systemd/system/consul.service'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+  register: systemd_update
+
+- name : Consul backup job
+  cron:
+    user: '{{ consul_arg.user }}'
+    name: 'Consul Snapshot backup'
+    minute: "{{ ( inventory_hostname | hash | list | map('int',0,16) | sum ) % 60 }}"
+    hour: "{{ (( inventory_hostname | hash | list | map('int',0,16) | sum ) % 2) + 1 }}"
+    job: 'export CONSUL_HTTP_TOKEN={{ consul_acl_arg.master_token }} && /usr/local/bin/consul snapshot save {{ consul_path.backup }}/`/bin/date "+\%Y\%m\%d\%H\%M\%S"`.snap >/dev/null 2>&1'
+  no_log: true

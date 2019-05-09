@@ -1,0 +1,3 @@
+node01 ansible_host='x.x.x.x' consul_datacenter='dc01' consul_node_role='server'
+node02 ansible_host='x.x.x.x' consul_datacenter='dc01' consul_node_role='server'
+node03 ansible_host='x.x.x.x' consul_datacenter='dc01' consul_node_role='server'

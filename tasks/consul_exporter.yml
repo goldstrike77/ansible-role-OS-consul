@@ -1,0 +1,45 @@
+---
+- name: Add consul exporter YUM repositories
+  yum_repository:
+    name: '{{ consul_exporter_repo_name }}'
+    description: '{{ consul_exporter_repo_name }} YUM repository'
+    file: '{{ consul_exporter_repo_name }}'
+    baseurl: '{{ consul_exporter_repo_url }}'
+    gpgcheck: no
+
+- name: Install the consul exporter
+  yum:
+    name: '{{ consul_exporter_software }}'
+    state: present
+  register: consul_exporter_soft_updated
+
+- name: Consul exporter configure file transfer
+  template:
+    src: 'consul_exporter.j2'
+    dest: '/etc/default/consul_exporter'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+  register: consul_exporter_soft_config
+
+- name: Consul exporter environment variables
+  lineinfile:
+    state: present
+    dest: '/lib/systemd/system/consul_exporter.service'
+    regexp: '^Environment=CONSUL_HTTP_TOKEN'
+    insertafter: '\[Service\]'
+    line: 'Environment=CONSUL_HTTP_TOKEN={{ consul_acl_arg.master_token }}'
+  register: consul_exporter_systemd_config
+  no_log: true
+
+- name: Reloading the consul exporter service
+  systemd:
+    name: 'consul_exporter.service'
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+  async: 1
+  poll: 0
+  when:
+    - ansible_distribution_major_version|int > 6
+    - consul_exporter_soft_updated.changed or consul_exporter_soft_config.changed or consul_exporter_systemd_config.changed

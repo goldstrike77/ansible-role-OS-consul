@@ -1,0 +1,25 @@
+[Unit]
+Description=consul agent
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/consul
+Environment=CONSUL_UI_LEGACY=1
+{% if ansible_processor_vcpus > 1 %}
+Environment=GOMAXPROCS={{ (ansible_processor_vcpus * 0.5 + 1)|int }}
+{% else %}
+Environment=GOMAXPROCS=1
+{% endif %}
+Restart=always
+RestartSec=10
+StartLimitInterval=0
+User={{ consul_arg.user }}
+LimitNOFILE={{ consul_arg.ulimit_nofile }}
+LimitNPROC={{ consul_arg.ulimit_nproc }}
+ExecStart=/usr/local/bin/consul agent -config-file={{ consul_path.conf }}/config.json -config-dir={{ consul_path.conf }}/consul.d -rejoin -ui -data-dir={{ consul_path.data }}
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target

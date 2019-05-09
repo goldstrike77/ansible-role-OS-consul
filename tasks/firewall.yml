@@ -1,0 +1,53 @@
+---
+#- name: Allow consul service port
+#  firewalld:
+#    port: '{{ item[1] }}/{{ item[2] }}'
+#    zone: 'public'
+#    permanent: 'true'
+#    immediate: 'true'
+#    state: 'enabled'
+#  with_nested: 
+#    - '{{ consul_port_arg | dictsort }}'
+#    - [ 'tcp', 'udp' ]
+
+- name: Allow consul service TCP port
+  firewalld:
+    port: '{{ item.value }}/tcp'
+    zone: 'public'
+    permanent: 'true'
+    immediate: 'true'
+    state: 'enabled'
+  with_dict:
+    - '{{ consul_port_arg }}'
+
+- name: Allow consul service UDP port
+  firewalld:
+    port: '{{ item }}/udp'
+    zone: 'public'
+    permanent: 'true'
+    immediate: 'true'
+    state: 'enabled'  
+  with_items:
+    - '{{ consul_port_arg.dns }}'
+    - '{{ consul_port_arg.dns_interface }}'
+    - '{{ consul_port_arg.serf_lan }}'
+    - '{{ consul_port_arg.serf_wan }}'
+
+- name: 'Redirect port {{ consul_port_arg.dns }} to {{ consul_port_arg.dns_interface }}'
+  firewalld:
+    rich_rule: 'rule family=ipv4 forward-port port={{ consul_port_arg.dns }} protocol={{ item }} to-port={{ consul_port_arg.dns_interface }}'
+    zone: 'public'
+    permanent: 'true'
+    immediate: 'true'
+    state: 'enabled'
+  with_items:
+    - 'tcp'
+    - 'udp'
+
+- name: 'Redirect port {{ consul_port_arg.dns }} to {{ consul_port_arg.dns_interface }} over the loopback interface'
+  shell: 'firewall-cmd --permanent --direct --add-rule ipv4 nat OUTPUT 0 -p {{ item }} -o lo --dport {{ consul_port_arg.dns }} -j REDIRECT --to-ports {{ consul_port_arg.dns_interface }} && firewall-cmd --reload'
+  with_items:
+    - 'tcp'
+    - 'udp'
+  async: 1
+  poll: 0

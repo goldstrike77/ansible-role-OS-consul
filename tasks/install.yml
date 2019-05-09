@@ -1,0 +1,48 @@
+---
+- name: Install the Consul Python dependencies packages
+  pip:
+    name: '{{ item }}'
+    state: 'forcereinstall'
+  with_items: '{{ consul_acl_python_dependent_packages }}'
+
+- name: Add the group consul
+  group:
+    name: "{{ consul_arg.user }}"
+    gid: '{{ consul_arg.uid }}'
+
+- name: Add the user consul
+  user:
+    name: '{{ consul_arg.user }}'
+    comment: '{{ consul_arg.user }}'
+    create_home: 'yes'
+    shell: '/sbin/nologin'
+    uid: '{{ consul_arg.uid }}'
+    group: '{{ consul_arg.user }}'
+
+- name: Check current consul version
+  command: '/usr/local/bin/consul --version'
+  register: consul_current_version
+  changed_when: false
+  failed_when: false
+
+- name: Delete existing consul version if different
+  file:
+    path: '/usr/local/bin/consul'
+    state: absent
+  when:
+    - consul_current_version.stdout is defined
+    - consul_version not in consul_current_version.stdout
+
+- name: Install consul
+  unarchive:
+    src: '{{ consul_soft_url }}/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ ansible_system|lower }}_{{ consul_architecture[ansible_architecture] }}.zip'
+    dest: '/usr/local/bin'
+    owner: '{{ consul_arg.user }}'
+    group: '{{ consul_arg.user }}'
+    mode: '0755'
+    remote_src: yes
+    validate_certs: 'no'
+  register: consul_upgrade
+  when:
+    - consul_current_version.rc == 2 or consul_version not in consul_current_version.stdout
+  ignore_errors: true

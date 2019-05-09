@@ -1,0 +1,16 @@
+[Unit]
+Description=hashi-ui
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Restart=always
+RestartSec=10
+StartLimitInterval=0
+User={{ consul_arg.user }}
+ExecStart=/usr/local/bin/hashi-ui-{{ ansible_system|lower }}-{{ consul_architecture[ansible_architecture] }} --consul-enable -listen-address 0.0.0.0:{{ consul_port_arg.hashiui }} -https-enable -server-cert {{ consul_path.conf }}/ssl/{{ consul_arg.ca_file }} -server-key {{ consul_path.conf }}/ssl/{{ consul_arg.key_file }} -consul-acl-token {{ consul_acl_arg.master_token }} 
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target

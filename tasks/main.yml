@@ -1,0 +1,40 @@
+---
+- name: Include OS-specific variables
+  include_vars: '{{ ansible_os_family }}.yml'
+
+- name: Include tasks for specific OS
+  include: '{{ ansible_os_family }}.yml'
+
+- name: Configure the consul firewall
+  include: 'firewall.yml'
+
+- name: Installation the HashiCorp consul
+  include: 'install.yml'
+
+- name: Configuration the consul
+  include: 'configureation.yml'
+
+- name: Reload the consul service
+  shell: echo ''
+  notify: 'Ensure consul service is enabled'
+  when: consul_upgrade|changed or config_update|changed or systemd_update|changed or ssl_update|changed or acl_master_update|changed or acl_client_update|changed
+
+- name: Installation the hashi-ui
+  include: 'hashi-ui.yml'
+  when:
+    - consul_node_role == 'client'
+    - hashiui_version is defined
+
+- name: Reload the hashiui service
+  shell: echo ''
+  notify: 'Ensure hashiui service is enabled'
+  when: 
+    - consul_node_role == 'client'
+    - hashiui_version is defined
+    - hashiui_upgrade|changed or hashiui_systemd_update|changed
+
+- name: Force the handler to run immediately
+  meta: flush_handlers
+
+- name: Installation the prometheus consul exporter
+  include: 'consul_exporter.yml'

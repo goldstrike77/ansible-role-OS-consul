@@ -1,0 +1,30 @@
+---
+consul_soft_url: 'http://releases.hashicorp.com'
+
+hashiui_soft_url: 'http://github.com/jippi/hashi-ui/releases/download'
+
+consul_architecture:
+  amd64: 'amd64'
+  x86_64: 'amd64'
+  armv6l: 'arm'
+  armv7l: 'arm'
+  aarch64: 'arm64'
+  32-bit: '386'
+  64-bit: 'amd64'
+
+consul_acl_python_dependent_packages:
+  - 'pip'
+  - 'python-consul'
+  - 'pyhcl'
+  - 'requests'
+
+consul_servers: "\
+  {% set _consul_servers = [] %}\
+  {% for host in groups[group_names[-1]] %}\
+    {% set _consul_datacenter = hostvars[host]['consul_datacenter'] | default('', true) %}\
+    {% set _consul_node_role = hostvars[host]['consul_node_role'] | default('client', true) %}\
+    {% if ( _consul_datacenter == hostvars[host]['consul_datacenter'] and _consul_node_role == 'server') %}\
+      {% if _consul_servers.append(hostvars[host]['ansible_host']) %}{% endif %}\
+    {% endif %}\
+  {% endfor %}\
+  {{ _consul_servers }}"
