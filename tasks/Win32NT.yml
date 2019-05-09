@@ -4,3 +4,6 @@
 
 - name: Configure the consul firewall
   include: '{{ ansible_system }}/firewall.yml'
+
+- name: Configuration the consul
+  include: '{{ ansible_system }}/configureation.yml'

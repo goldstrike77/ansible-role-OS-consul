@@ -4,7 +4,11 @@
   "ca_file": "{{ consul_path.conf }}/ssl/{{ consul_arg.ca_file }}",
   "cert_file": "{{ consul_path.conf }}/ssl/{{ consul_arg.cert_file }}",
   "client_addr": "0.0.0.0",
+{% if ansible_system == 'Linux' %}
   "data_dir": "{{ consul_path.data }}",
+{% else %}
+  "data_dir": "c:\PROGRAMDATA\consul\data",
+{% endif %}
   "datacenter": "{{ consul_datacenter | lower }}",
   "dns_config": {
     "allow_stale": {{ consul_arg.dns_allow_stale | bool | to_json }},

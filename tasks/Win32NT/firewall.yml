@@ -17,11 +17,13 @@
     state: present
     action: allow
     direction: In
-    name: 'consul_{{ item.key }}'
+    name: 'consul_UDP_{{ index }}'
     protocol: 'udp'
-    localport: '{{ item.value }}'
-  with_dict:
+    localport: '{{ item }}'
+  loop:
     - '{{ consul_port_arg.dns }}'
     - '{{ consul_port_arg.dns_interface }}'
     - '{{ consul_port_arg.serf_lan }}'
     - '{{ consul_port_arg.serf_wan }}'
+  loop_control:
+    index_var: index

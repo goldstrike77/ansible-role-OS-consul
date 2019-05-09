@@ -1,0 +1,21 @@
+---
+- name: Creating consul config folder
+  win_file:
+    path: 'c:\PROGRAMDATA\consul\consul.d'
+    state: 'directory'
+
+- name: Consul configuration file transfer
+  win_template:
+    src: 'config.json.j2'
+    dest: 'c:\PROGRAMDATA\consul\config.json'
+  register: config_update
+#  no_log: true
+
+- name: Consul client ACL policy file transfer
+  win_template:
+    src: 'client.json.j2'
+    dest: 'c:\PROGRAMDATA\consul\config\client.json'
+  register: acl_client_update
+  when:
+    - consul_acl_arg.enabled
+#  no_log: true
