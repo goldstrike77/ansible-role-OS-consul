@@ -2,6 +2,7 @@
 # General parameters #
 consul_is_install: false
 consul_datacenter: 'dc01'
+consul_domain: 'local'
 consul_node_role: 'client'
 consul_version: '1.4.4'
 hashiui_is_install: false
@@ -32,7 +33,6 @@ consul_arg:
   cert_file: 'certificate.pem'
   dns_allow_stale: true
   dns_max_stale: '10s'
-  domain: 'local'
   enable_local_script_checks: true
   enable_script_checks: true
   enable_syslog: true

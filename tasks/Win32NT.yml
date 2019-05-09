@@ -1,16 +1,6 @@
 ---
-- name: Install chocolatey
-  win_chocolatey:
-    name: 'chocolatey'
-    state: 'downgrade'
-    version: '0.10.11'
-    proxy_url: '{{ os_proxy_server | default(omit,true) }}'
-  ignore_errors: yes
+- name: Include tasks for specific OS
+  include: '{{ ansible_system }}/install.yml'
 
-- name: 'Consul client installation'
-  win_chocolatey:
-    name: 'consul'
-    state: 'latest'
-    timeout: '60'
-    proxy_url: '{{ os_proxy_server | default(omit,true) }}'
-  ignore_errors: yes
+- name: Configure the consul firewall
+  include: '{{ ansible_system }}/firewall.yml'

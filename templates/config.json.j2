@@ -11,7 +11,7 @@
     "max_stale": "{{ consul_arg.dns_max_stale }}",
     "service_ttl": {{ dns_service_ttl | to_nice_json(indent=2) | indent(4,False) }}
   },
-  "domain": "{{ consul_arg.domain | lower }}",
+  "domain": "{{ consul_domain | lower }}",
   "enable_local_script_checks": {{ consul_arg.enable_local_script_checks | bool | to_json }},
   "enable_script_checks": {{ consul_arg.enable_script_checks | bool | to_json }},
   "enable_syslog": {{ consul_arg.enable_syslog | bool | to_json }},
