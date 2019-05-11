@@ -1,17 +1,49 @@
 ---
-- name: Install chocolatey
-  win_chocolatey:
-    name: 'chocolatey'
-    state: 'downgrade'
-    version: '0.10.11'
-    proxy_url: '{{ os_proxy_server | default(omit,true) }}'
-  ignore_errors: yes
+- name: Creating consul folder
+  win_file:
+    path: 'c:\PROGRAMDATA\consul\{{ item }}'
+    state: 'directory'
+  loop:
+    - 'bin'
+    - 'consul.d'
+    - 'logs'
+    - 'data'
 
-- name: 'Consul client installation'
-  win_chocolatey:
+- name: Check current consul version
+  win_command: 'c:\ProgramData\consul\bin\consul --version'
+  register: consul_current_version
+  changed_when: false
+  failed_when: false
+
+- name: Stop current consul service
+  win_service:
     name: 'consul'
-    state: 'latest'
-    params: '-config-file="%PROGRAMDATA%\consul\config.json" -config-dir="%PROGRAMDATA%\consul\consul.d" -rejoin -ui -data-dir="%PROGRAMDATA%\consul\data"'
-    timeout: '60'
+    state: 'stopped'
+  when:
+    - consul_current_version.stdout is defined
+    - consul_version not in consul_current_version.stdout
+
+- name: Delete existing consul version if different
+  file:
+    path: '/usr/local/bin/consul'
+    state: absent
+  when:
+    - consul_current_version.stdout is defined
+    - consul_version not in consul_current_version.stdout
+
+- name: Get consul
+  win_get_url:
+    url: '{{ consul_soft_url }}/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ ansible_os_family | lower }}_{{ consul_architecture[ansible_architecture] }}.zip'
+    dest: 'c:\PROGRAMDATA\consul'
     proxy_url: '{{ os_proxy_server | default(omit,true) }}'
-  ignore_errors: yes
+    timeout: 60
+  when:
+    - consul_current_version.rc == 2 or consul_version not in consul_current_version.stdout
+
+- name: Install consul
+  win_unzip:
+    src: 'c:\PROGRAMDATA\consul\consul_{{ consul_version }}_{{ ansible_os_family | lower }}_{{ consul_architecture[ansible_architecture] }}.zip'
+    dest: 'c:\PROGRAMDATA\consul\bin'
+    rm: 'yes'
+  when:
+    - consul_current_version.rc == 2 or consul_version not in consul_current_version.stdout

@@ -1,13 +1,20 @@
 {
   "bind_addr": "{{ ansible_host }}",
   "bootstrap_expect": {{ consul_servers | length }},
+{% if ansible_system == 'Linux' %}
   "ca_file": "{{ consul_path.conf }}/ssl/{{ consul_arg.ca_file }}",
   "cert_file": "{{ consul_path.conf }}/ssl/{{ consul_arg.cert_file }}",
+  "key_file": "{{ consul_path.conf }}/ssl/{{ consul_arg.key_file }}",
+{% else %}
+  "ca_file": "c:\\PROGRAMDATA\\consul\\ssl\\{{ consul_arg.ca_file }}",
+  "cert_file": "c:\\PROGRAMDATA\\consul\\ssl\\{{ consul_arg.cert_file }}",
+  "key_file": "c:\\PROGRAMDATA\\consul\\ssl\\{{ consul_arg.key_file }}",
+{% endif %}
   "client_addr": "0.0.0.0",
 {% if ansible_system == 'Linux' %}
   "data_dir": "{{ consul_path.data }}",
 {% else %}
-  "data_dir": "c:\PROGRAMDATA\consul\data",
+  "data_dir": "c:\\PROGRAMDATA\\consul\\data",
 {% endif %}
   "datacenter": "{{ consul_datacenter | lower }}",
   "dns_config": {
@@ -18,7 +25,7 @@
   "domain": "{{ consul_domain | lower }}",
   "enable_local_script_checks": {{ consul_arg.enable_local_script_checks | bool | to_json }},
   "enable_script_checks": {{ consul_arg.enable_script_checks | bool | to_json }},
-  "enable_syslog": {{ consul_arg.enable_syslog | bool | to_json }},
+  "enable_syslog": {% if ansible_system == 'Linux' %}{{ consul_arg.enable_syslog | bool | to_json }}{% else %}false{% endif %},
   "encrypt": "{{ consul_arg.encrypt }}",
   "encrypt_verify_incoming": {{ consul_arg.encrypt_verify_incoming | bool | to_json }},
   "encrypt_verify_outgoing": {{ consul_arg.encrypt_verify_outgoing | bool | to_json }},
@@ -27,7 +34,6 @@
       "Access-Control-Allow-Origin": "*"
     }
   },
-  "key_file": "{{ consul_path.conf }}/ssl/{{ consul_arg.key_file }}",
   "log_level": "{{ consul_arg.log_level }}",
   "node_name": "{{ inventory_hostname|upper }}",
   "performance": {{ consul_performance | to_nice_json(indent=2) | indent(2,False) }},

@@ -41,7 +41,7 @@
 
 - name: Install consul
   unarchive:
-    src: '{{ consul_soft_url }}/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ ansible_system|lower }}_{{ consul_architecture[ansible_architecture] }}.zip'
+    src: '{{ consul_soft_url }}/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ ansible_system | lower }}_{{ consul_architecture[ansible_architecture] }}.zip'
     dest: '/usr/local/bin'
     owner: '{{ consul_arg.user }}'
     group: '{{ consul_arg.user }}'
