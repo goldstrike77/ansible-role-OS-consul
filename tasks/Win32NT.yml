@@ -1,5 +1,5 @@
 ---
-- name: Include tasks for specific OS
+- name: Installation the HashiCorp consul
   include: '{{ ansible_system }}/install.yml'
 
 - name: Configure the consul firewall
