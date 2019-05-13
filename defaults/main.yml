@@ -5,7 +5,6 @@ consul_datacenter: 'dc01'
 consul_domain: 'local'
 consul_node_role: 'client'
 consul_version: '1.4.4'
-consul_exporter_version: '0.4.0' # Only for windows.
 hashiui_is_install: false
 hashiui_version: '1.0.0'
 consul_path:

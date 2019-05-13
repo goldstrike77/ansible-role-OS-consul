@@ -1,47 +1,22 @@
 ---
-- name: Check current consul exporter version
-  win_command: 'c:\ProgramData\consul\bin\consul_exporter.exe --version'
-  register: consul_exporter_current_version
-  changed_when: false
-  failed_when: false
-
-- name: Stop current consul exporter service
-  win_service:
-    name: 'consul_exporter'
-    state: 'stopped'
-  when:
-    - consul_exporter_current_version.stdout is defined
-    - consul_exporter_version not in consul_exporter_current_version.stdout
-
-- name: Delete existing consul exporter version if different
-  win_file:
+- name: Check if Consul exporter binary exists
+  win_stat:
     path: 'c:\ProgramData\consul\bin\consul_exporter.exe'
-    state: absent
-  when:
-    - consul_exporter_current_version.stdout is defined
-    - consul_exporter_version not in consul_exporter_current_version.stdout
+  register: result
 
 - name: Get Consul exporter
-  win_get_url:
-    url: '{{ consul_exporter_soft_url }}/v{{ consul_exporter_version }}/consul_exporter-{{ consul_exporter_version }}.{{ ansible_os_family | lower }}-{{ consul_architecture[ansible_architecture] }}.tar.gz'
-    dest: 'c:\PROGRAMDATA\consul'
-    proxy_url: '{{ os_proxy_server | default(omit,true) }}'
-    timeout: 60
-  when:
-    - consul_exporter_current_version.rc == 2 or consul_exporter_version not in consul_exporter_current_version.stdout
-  register: consul_exporter_download
-  until: consul_exporter_download is succeeded
-  retries: 3
-  delay: 5
+  win_copy:
+    src: 'consul_exporter.zip'
+    dest: 'c:\PROGRAMDATA\consul\consul_exporter.zip'
+  when: not result.stat.exists
 
 - name: Install consul exporter
   win_unzip:
-    src: 'c:\PROGRAMDATA\consul\consul_exporter-{{ consul_exporter_version }}.{{ ansible_os_family | lower }}-{{ consul_architecture[ansible_architecture] }}.tar.gz'
+    src: 'c:\PROGRAMDATA\consul\consul_exporter.zip'
     dest: 'c:\PROGRAMDATA\consul\bin'
     rm: 'yes'
-  when:
-    - consul_exporter_current_version.rc == 2 or consul_exporter_version not in consul_exporter_current_version.stdout
   register: consul_exporter_upgrade
+  when: not result.stat.exists
 
 - name: Create Consul exporter service
   win_service:
@@ -51,3 +26,4 @@
     start_mode: 'auto'
     state: 'started'
     description: 'Consul exporter'
+  when: consul_exporter_upgrade
