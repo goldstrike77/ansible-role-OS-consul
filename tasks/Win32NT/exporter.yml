@@ -18,12 +18,25 @@
   register: consul_exporter_upgrade
   when: not result.stat.exists
 
-- name: Create Consul exporter service
-  win_service:
-    name: 'consul_exporter'
-    path: 'start /b \"c:\ProgramData\consul\bin\consul_exporter.exe --web.listen-address=":{{ consul_port_arg.exporter }}" --consul.server="{% if consul_arg.https %}https{% else %}http{% endif %}://localhost:{{ consul_port_arg.http }}" --consul.health-summary\"'
-    display_name: 'HashiCorp consul exporter'
-    start_mode: 'auto'
-    state: 'started'
-    description: 'Consul exporter'
-  when: consul_exporter_upgrade
+- name: Install consul exporter script
+  win_template:
+    src: 'consul_exporter.bat'
+    dest: 'c:\PROGRAMDATA\consul\bin\consul_exporter.bat'
+  when: not result.stat.exists
+
+- name: Startup Consul exporter
+  win_command: 'c:\PROGRAMDATA\consul\bin\consul_exporter.bat'
+  async: 1
+  poll: 0
+  when: not result.stat.exists
+
+- name: Create a task to startup Consul exporter as boot
+  win_scheduled_task:
+    name: 'HashiCorp consul exporter'
+    actions:
+    - path: 'c:\PROGRAMDATA\consul\bin\consul_exporter.bat'
+    state: present
+    enabled: yes
+    user: SYSTEM
+    triggers:
+    - type: 'boot'
