@@ -21,7 +21,7 @@
 - name: Create Consul exporter service
   win_service:
     name: 'consul_exporter'
-    path: 'c:\ProgramData\consul\bin\consul_exporter.exe --web.listen-address=":{{ consul_port_arg.exporter }}" --consul.server="{% if consul_arg.https %}https{% else %}http{% endif %}://localhost:{{ consul_port_arg.http }}" --consul.health-summary'
+    path: 'start /b c:\ProgramData\consul\bin\consul_exporter.exe --web.listen-address=":{{ consul_port_arg.exporter }}" --consul.server="{% if consul_arg.https %}https{% else %}http{% endif %}://localhost:{{ consul_port_arg.http }}" --consul.health-summary'
     display_name: 'HashiCorp consul exporter'
     start_mode: 'auto'
     state: 'started'
