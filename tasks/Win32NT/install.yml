@@ -10,7 +10,7 @@
     - 'data'
 
 - name: Check current consul version
-  win_command: 'c:\ProgramData\consul\bin\consul --version'
+  win_command: 'c:\ProgramData\consul\bin\consul.exe --version'
   register: consul_current_version
   changed_when: false
   failed_when: false
@@ -24,8 +24,8 @@
     - consul_version not in consul_current_version.stdout
 
 - name: Delete existing consul version if different
-  file:
-    path: '/usr/local/bin/consul'
+  win_file:
+    path: 'c:\ProgramData\consul\bin\consul.exe'
     state: absent
   when:
     - consul_current_version.stdout is defined

@@ -1,1 +1,2 @@
 ---
+consul_exporter_soft_url: 'http://github.com/prometheus/consul_exporter/releases/download'

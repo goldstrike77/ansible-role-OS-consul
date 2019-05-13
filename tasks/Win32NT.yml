@@ -8,5 +8,8 @@
 - name: Configuration the consul
   include: '{{ ansible_system }}/configureation.yml'
 
+- name: Installation the prometheus consul exporter
+  include: '{{ ansible_system }}/exporter.yml'
+
 - include_tasks: '{{ ansible_system }}/register.yml'
   when: consul_public_register

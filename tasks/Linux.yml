@@ -34,7 +34,7 @@
   meta: flush_handlers
 
 - name: Installation the prometheus consul exporter
-  include: '{{ ansible_system }}/consul_exporter.yml'
+  include: '{{ ansible_system }}/exporter.yml'
 
 - include_tasks: '{{ ansible_system }}/register.yml'
   when: consul_public_register
