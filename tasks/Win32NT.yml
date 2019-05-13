@@ -7,3 +7,6 @@
 
 - name: Configuration the consul
   include: '{{ ansible_system }}/configureation.yml'
+
+- include_tasks: '{{ ansible_system }}/register.yml'
+  when: consul_public_register

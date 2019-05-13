@@ -16,6 +16,13 @@ consul_join_servers:
   - '1.1.1.2'
   - '1.1.1.3'
 
+# Service Mesh #
+environments: 'SIT' # Define the service environment.
+consul_public_register: false # Whether register a exporter service with public consul client.
+consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # Public Consul client ACL token.
+consul_public_clients: 'localhost' # List of public consul clients.
+consul_public_http_port: '8500' # The consul HTTP API port.
+
 # Listen port #
 consul_port_arg:
   dns: '53'
