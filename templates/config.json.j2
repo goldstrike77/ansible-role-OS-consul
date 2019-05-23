@@ -35,7 +35,8 @@
     }
   },
   "log_level": "{{ consul_arg.log_level }}",
-  "node_name": "{{ inventory_hostname|upper }}",
+  "node_id": "{{ ansible_hostname | to_uuid }}",
+  "node_name": "{{ ansible_hostname | upper }}",
   "performance": {{ consul_performance | to_nice_json(indent=2) | indent(2,False) }},
   "ports": {
     "server": {{ consul_port_arg.server }},
