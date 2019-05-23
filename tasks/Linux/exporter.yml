@@ -5,12 +5,15 @@
     description: '{{ consul_exporter_repo_name }} YUM repository'
     file: '{{ consul_exporter_repo_name }}'
     baseurl: '{{ consul_exporter_repo_url }}'
-    gpgcheck: no
+    gpgcheck: 'no'
+    timeout: '60'
 
 - name: Install the consul exporter
   yum:
     name: '{{ consul_exporter_software }}'
     state: present
+    validate_certs: 'no'
+    disable_gpg_check: 'yes'
   register: consul_exporter_soft_updated
 
 - name: Consul exporter configure file transfer

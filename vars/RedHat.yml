@@ -1,5 +1,4 @@
 ---
-disable_gpg_check: yes
 consul_exporter_repo_name: "prometheus"
 consul_exporter_repo_url: "http://cache.omygods.com/prometheus-rpm/release/el/{{ansible_distribution_version.split('.')[0]}}/$basearch"
 consul_exporter_software: 'consul_exporter'
