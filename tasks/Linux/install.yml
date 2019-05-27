@@ -3,6 +3,7 @@
   pip:
     name: '{{ item }}'
     state: 'forcereinstall'
+    extra_args: '-i {{ consul_pypi_url }}'
   with_items: '{{ consul_acl_python_dependent_packages }}'
   register: python_status
   until: python_status is succeeded

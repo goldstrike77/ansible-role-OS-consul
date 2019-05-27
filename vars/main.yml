@@ -3,6 +3,8 @@ consul_soft_url: 'http://releases.hashicorp.com'
 
 hashiui_soft_url: 'http://github.com/jippi/hashi-ui/releases/download'
 
+consul_pypi_url: 'https://mirrors.aliyun.com/pypi/simple/'
+
 consul_architecture:
   amd64: 'amd64'
   x86_64: 'amd64'
