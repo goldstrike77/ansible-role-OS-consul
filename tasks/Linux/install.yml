@@ -9,6 +9,7 @@
   until: python_status is succeeded
   retries: 10
   delay: 6
+  when: consul_node_role == 'server'
   changed_when: false
   failed_when: false
 
