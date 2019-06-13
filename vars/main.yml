@@ -1,7 +1,7 @@
 ---
 consul_soft_url: 'http://releases.hashicorp.com'
 
-hashiui_soft_url: 'http://github.com/jippi/hashi-ui/releases/download'
+consul_hashiui_soft_url: 'http://github.com/jippi/hashi-ui/releases/download'
 
 consul_pypi_url: 'https://mirrors.aliyun.com/pypi/simple/'
 

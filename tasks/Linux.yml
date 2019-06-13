@@ -20,14 +20,14 @@
   include: '{{ ansible_system }}/hashi-ui.yml'
   when:
     - consul_node_role == 'server'
-    - hashiui_is_install
+    - consul_hashiui_is_install
 
 - name: Reload the hashiui service
   shell: echo ''
   notify: 'Ensure hashiui service is enabled'
   when: 
     - consul_node_role == 'server'
-    - hashiui_is_install
+    - consul_hashiui_is_install
     - hashiui_upgrade is changed or hashiui_systemd_update is changed
 
 - name: Force the handler to run immediately
