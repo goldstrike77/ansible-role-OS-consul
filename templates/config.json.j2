@@ -20,7 +20,7 @@
   "dns_config": {
     "allow_stale": {{ consul_arg.dns_allow_stale | bool | to_json }},
     "max_stale": "{{ consul_arg.dns_max_stale }}",
-    "service_ttl": {{ dns_service_ttl | to_nice_json(indent=2) | indent(4,False) }}
+    "service_ttl": {{ consul_dns_service_ttl | to_nice_json(indent=2) | indent(4,False) }}
   },
   "domain": "{{ consul_domain | lower }}",
   "enable_local_script_checks": {{ consul_arg.enable_local_script_checks | bool | to_json }},

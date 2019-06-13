@@ -23,7 +23,7 @@
     group: '{{ consul_arg.user }}'
     mode: 0644
   register: config_update
-  no_log: true
+#  no_log: true
 
 - name: Consul master ACL policy file transfer
   template:
