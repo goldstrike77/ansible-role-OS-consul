@@ -1,1 +1,1 @@
-c:\ProgramData\consul\bin\consul_exporter.exe --web.listen-address=":{{ consul_port_arg.exporter }}" --consul.server="{% if consul_arg.https %}https{% else %}http{% endif %}://localhost:{{ consul_port_arg.http }}" --consul.health-summary
+c:\ProgramData\consul\bin\consul_exporter.exe --web.listen-address=":{{ consul_port_arg.exporter }}" --consul.server="{% if consul_arg.https %}https{% else %}http{% endif %}://localhost:{{ consul_port_arg.http }}" --no-consul.health-summary
