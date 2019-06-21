@@ -1,1 +1,1 @@
-CONSUL_EXPORTER_OPTS='--log.format="logger:syslog?appname=consul_exporter&local=7" --web.listen-address=":{{ consul_port_arg.exporter }}" --consul.server="{% if consul_arg.https %}https{% else %}http{% endif %}://localhost:{{ consul_port_arg.http }}" --no-consul.health-summary'
+CONSUL_EXPORTER_OPTS='--log.format="logger:syslog?appname=consul_exporter&local=7" --web.listen-address=":{{ consul_port_arg.exporter }}" --consul.server="{% if consul_arg.https %}https{% else %}http{% endif %}://localhost:{{ consul_port_arg.http }}" --no-consul.health-summary --consul.allow_stale'
