@@ -22,7 +22,6 @@
   win_template:
     src: 'consul_exporter.bat'
     dest: 'c:\PROGRAMDATA\consul\bin\consul_exporter.bat'
-  when: not result.stat.exists
 
 - name: Startup Consul exporter
   win_command: 'c:\PROGRAMDATA\consul\bin\consul_exporter.bat'
