@@ -30,6 +30,10 @@
   when:
     - consul_current_version.stdout is defined
     - consul_version not in consul_current_version.stdout
+  register: consul_delete
+  until: consul_delete is succeeded
+  retries: 3
+  delay: 5
 
 - name: Get consul
   win_get_url:
