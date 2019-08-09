@@ -1,9 +1,7 @@
 ---
 - name: Install the Consul dependencies packages
   yum:
-    name: '{{ item }}'
+    name: '{{ consul_dependent_packages }}'
     state: 'present'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
-  with_items:
-    - '{{ consul_dependent_packages }}'
