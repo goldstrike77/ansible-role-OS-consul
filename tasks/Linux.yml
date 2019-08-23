@@ -20,14 +20,14 @@
   include: '{{ ansible_system }}/hashi-ui.yml'
   when:
     - consul_node_role == 'server'
-    - consul_hashiui_is_install
+    - consul_hashiui_is_install | bool
 
 - name: Reload the hashiui service
   shell: echo ''
   notify: 'Ensure hashiui service is enabled'
   when: 
     - consul_node_role == 'server'
-    - consul_hashiui_is_install
+    - consul_hashiui_is_install | bool
     - hashiui_upgrade is changed or hashiui_systemd_update is changed
 
 - name: Force the handler to run immediately
@@ -35,6 +35,9 @@
 
 - name: Installation the prometheus consul exporter
   include: '{{ ansible_system }}/exporter.yml'
+  when: exporter_is_install | bool
 
 - include_tasks: '{{ ansible_system }}/register.yml'
-  when: consul_public_register
+  when:
+    - exporter_is_install | bool
+    - consul_public_register | bool

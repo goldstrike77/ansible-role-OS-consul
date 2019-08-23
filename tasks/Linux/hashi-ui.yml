@@ -23,6 +23,6 @@
     dest: '/lib/systemd/system/hashi-ui.service'
     owner: 'root'
     group: 'root'
-    mode: 0644
+    mode: '0644'
   register: hashiui_systemd_update
   no_log: true

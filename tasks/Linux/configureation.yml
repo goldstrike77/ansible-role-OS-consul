@@ -5,7 +5,7 @@
     state: directory
     owner: '{{ consul_arg.user }}'
     group: '{{ consul_arg.user }}'
-    mode: 0755
+    mode: '0755'
   with_dict:
     - '{{ consul_path }}'
 
@@ -21,7 +21,7 @@
     dest: '{{ consul_path.conf }}/config.json'
     owner: '{{ consul_arg.user }}'
     group: '{{ consul_arg.user }}'
-    mode: 0644
+    mode: '0644'
   register: config_update
   no_log: true
 
@@ -31,7 +31,7 @@
     dest: '{{ consul_path.conf }}/consul.d/master.json'
     owner: '{{ consul_arg.user }}'
     group: '{{ consul_arg.user }}'
-    mode: 0644
+    mode: '0644'
   register: acl_master_update
   when:
     - consul_node_role == 'server'
@@ -44,7 +44,7 @@
     dest: '{{ consul_path.conf }}/consul.d/client.json'
     owner: '{{ consul_arg.user }}'
     group: '{{ consul_arg.user }}'
-    mode: 0644
+    mode: '0644'
   register: acl_client_update
   when:
     - consul_node_role == 'client'
@@ -57,7 +57,7 @@
     dest: '{{ consul_path.conf }}'
     owner: '{{ consul_arg.user }}'
     group: '{{ consul_arg.user }}'
-    mode: 0644
+    mode: '0644'
   register: ssl_update
   no_log: true
 
@@ -67,7 +67,7 @@
     dest: '/lib/systemd/system/consul.service'
     owner: 'root'
     group: 'root'
-    mode: 0644
+    mode: '0644'
   register: systemd_update
 
 - name : Consul backup job

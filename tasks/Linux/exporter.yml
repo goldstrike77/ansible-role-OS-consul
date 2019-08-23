@@ -15,6 +15,9 @@
     validate_certs: 'no'
     disable_gpg_check: 'yes'
   register: consul_exporter_soft_updated
+  until: consul_exporter_soft_updated is succeeded
+  retries: 3
+  delay: 5
 
 - name: Consul exporter configure file transfer
   template:
@@ -22,7 +25,7 @@
     dest: '/etc/default/consul_exporter'
     owner: 'root'
     group: 'root'
-    mode: 0644
+    mode: '0644'
   register: consul_exporter_soft_config
 
 - name: Consul exporter environment variables
