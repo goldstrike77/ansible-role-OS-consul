@@ -35,7 +35,7 @@
   register: acl_master_update
   when:
     - consul_node_role == 'server'
-    - consul_acl_arg.enabled
+    - consul_acl_arg.enabled | bool
   no_log: true
 
 - name: Consul client ACL policy file transfer
@@ -48,7 +48,7 @@
   register: acl_client_update
   when:
     - consul_node_role == 'client'
-    - consul_acl_arg.enabled
+    - consul_acl_arg.enabled | bool
   no_log: true
 
 - name: Consul SSL certificate file transfer

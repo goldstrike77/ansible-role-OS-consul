@@ -12,7 +12,7 @@
     dest: 'c:\PROGRAMDATA\consul\consul.d\client.json'
   register: acl_client_update
   when:
-    - consul_acl_arg.enabled
+    - consul_acl_arg.enabled | bool
   no_log: true
 
 - name: Consul SSL certificate file transfer

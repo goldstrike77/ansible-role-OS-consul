@@ -12,4 +12,4 @@
   include: '{{ ansible_system }}/exporter.yml'
 
 - include_tasks: '{{ ansible_system }}/register.yml'
-  when: consul_public_register
+  when: consul_public_register | bool
