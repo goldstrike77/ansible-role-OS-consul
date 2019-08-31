@@ -10,7 +10,7 @@ consul_hashiui_version: '1.0.1'
 consul_path:
   conf: '/etc/consul'
   data: '/data/consul'
-  backup: '/data/consul_backup'
+  backup: '/data/backup/consul'
 consul_join_servers:
   - '1.1.1.1'
   - '1.1.1.2'
