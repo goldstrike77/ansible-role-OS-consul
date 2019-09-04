@@ -23,11 +23,10 @@
       cache-control: 'no-cache'
   environment:
     no_proxy: '{{ item.client }}'
-  loop: "{{ check_consul_reg.results | json_query('[*].{client:item,status:status}') }}"
+  loop: "{{ check_consul_reg.results | json_query('[*].{client:item,status:status_code}') }}"
   when:
     - consul_public_register | bool
     - item.status == 405
-  register: register_status
   register: register_status
   until: register_status.status_code == 200
   retries: 2
