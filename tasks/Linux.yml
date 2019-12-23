@@ -2,9 +2,6 @@
 - name: Include tasks for specific OS
   include: '{{ ansible_system }}/{{ ansible_os_family }}.yml'
 
-- name: Straight to getenforce selinux status
-  include: '{{ ansible_system }}/selinux.yml'
-
 - name: Configure the consul firewall
   include: '{{ ansible_system }}/firewall.yml'
 
