@@ -1,0 +1,35 @@
+---
+- name: Check exists token AccessorID
+  uri:
+    url: '{{ consul_public_http_prot }}://127.0.0.1:{{ consul_public_http_port }}/v1/acl/tokens'
+    method: 'GET'
+    timeout: '10'
+    validate_certs: 'no'
+    headers:
+      X-Consul-Token: '{{ consul_acl_arg.master_token }}'
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '127.0.0.1'
+  changed_when: false
+  failed_when: false
+  no_log: true
+  register: check_consul_token_accessorid
+
+- name: Check default Token
+  uri:
+    url: "{{ consul_public_http_prot }}://127.0.0.1:{{ consul_public_http_port }}/v1/acl/token/{{ item }}"
+    method: 'GET'
+    timeout: '10'
+    validate_certs: 'no'
+    headers:
+      X-Consul-Token: '{{ consul_acl_arg.master_token }}'
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '127.0.0.1'
+  loop: "{{ check_consul_token_accessorid | json_query('json[?Description==`An default token`].AccessorID') }}"
+  changed_when: false
+  failed_when: false
+  no_log: true
+  register: consul_default_token

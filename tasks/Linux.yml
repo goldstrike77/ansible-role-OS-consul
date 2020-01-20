@@ -37,7 +37,28 @@
   include: '{{ ansible_system }}/exporter.yml'
   when: exporter_is_install | bool
 
-- include_tasks: '{{ ansible_system }}/register.yml'
+- name: Registered with HashiCorp Consul
+  include: '{{ ansible_system }}/register.yml'
   when:
     - exporter_is_install | bool
     - consul_public_register | bool
+
+- name: Created policy.
+  include: '{{ ansible_system }}/policy.yml'
+  when:
+    - consul_node_role == 'server'
+    - consul_servers[0] in ansible_default_ipv4.address
+
+- name: Inspact the default token.
+  include: '{{ ansible_system }}/token.yml'
+
+- name: Configuration the consul
+  include: '{{ ansible_system }}/configureation.yml'
+
+- name: Reload the consul service for default token replace.
+  shell: echo ''
+  notify: 'Ensure consul service is enabled'
+  when: consul_upgrade is changed or config_update is changed or systemd_update is changed or ssl_update is changed or acl_master_update is changed or acl_client_update is changed
+
+- name: Force the handler to run immediately
+  meta: flush_handlers

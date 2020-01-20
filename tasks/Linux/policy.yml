@@ -1,0 +1,36 @@
+---
+- name: Create an default ACL with rules.
+  consul_acl_policy:
+    name: 'default'
+    description: 'An default policy'
+    rules: |
+      node_prefix "" {
+        policy = "read"
+      }
+      service_prefix "" {
+        policy = "read"
+      }
+      operator = "read"
+      keyring = "read"
+    state: 'present'
+    url: '{% if not consul_arg.https %}http{% else %}https{% endif %}://127.0.0.1:{{ consul_port_arg.http }}'
+    token: '{{ consul_acl_arg.master_token }}'
+    validate_certs: 'no'
+  register: consul_acl_policy
+  environment:
+    no_proxy: '127.0.0.1'
+
+- name: Create an default ACL token.
+  consul_acl_token:
+    description: 'An default token'
+    policies:
+      - id: '{{ consul_acl_policy.id }}'
+    local: 'false'
+    state: 'present'
+    url: '{% if not consul_arg.https %}http{% else %}https{% endif %}://127.0.0.1:{{ consul_port_arg.http }}'
+    token: '{{ consul_acl_arg.master_token }}'
+    validate_certs: 'no'
+  register: consul_acl_token
+  when: consul_acl_policy.operation == "create"
+  environment:
+    no_proxy: '127.0.0.1'
