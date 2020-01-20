@@ -33,3 +33,6 @@
   failed_when: false
   no_log: true
   register: consul_default_token
+  until: consul_default_token.status == 200
+  retries: 2
+  delay: 2

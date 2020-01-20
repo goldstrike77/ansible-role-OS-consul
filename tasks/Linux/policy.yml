@@ -19,6 +19,8 @@
   register: consul_acl_policy
   environment:
     no_proxy: '127.0.0.1'
+  changed_when: false
+  failed_when: false
 
 - name: Create an default ACL token.
   consul_acl_token:
@@ -31,6 +33,8 @@
     token: '{{ consul_acl_arg.master_token }}'
     validate_certs: 'no'
   register: consul_acl_token
-  when: consul_acl_policy.operation == "create"
+  when:
+    - consul_acl_policy.operation is defined
+    - consul_acl_policy.operation == "create"
   environment:
     no_proxy: '127.0.0.1'
