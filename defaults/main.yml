@@ -7,10 +7,7 @@ consul_node_role: 'client'
 consul_version: '1.5.3'
 consul_hashiui_is_install: false
 consul_hashiui_version: '1.3.0'
-consul_path:
-  conf: '/etc/consul'
-  data: '/data/consul'
-  backup: '/data/backup/consul'
+consul_path: '/data' # Specify the Consul data folder.
 consul_join_servers:
   - '1.1.1.1'
   - '1.1.1.2'
@@ -65,7 +62,7 @@ consul_acl_arg:
 # DNS Variables #
 consul_recursors:
   - '223.5.5.5'
-  - '223.6.6.6'
+  - '119.29.29.29'
   - '8.8.8.8'
 
 # Performance #

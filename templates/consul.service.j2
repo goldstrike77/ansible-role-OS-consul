@@ -17,7 +17,7 @@ StartLimitInterval=0
 User={{ consul_arg.user }}
 LimitNOFILE={{ consul_arg.ulimit_nofile }}
 LimitNPROC={{ consul_arg.ulimit_nproc }}
-ExecStart=/usr/local/bin/consul agent -config-file={{ consul_path.conf }}/config.json -config-dir={{ consul_path.conf }}/consul.d -rejoin -ui -data-dir={{ consul_path.data }}
+ExecStart=/usr/local/bin/consul agent -config-file=/etc/consul/config.json -config-dir=/etc/consul/consul.d -rejoin -ui -data-dir={{ consul_path }}/consul
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGTERM
 
