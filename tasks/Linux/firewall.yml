@@ -23,7 +23,9 @@
     state: 'enabled'
   with_dict:
     - '{{ consul_port_arg }}'
-  when: services_state.ansible_facts.services["firewalld.service"].state == 'running'
+  when:
+    - services_state.ansible_facts.services["firewalld.service"] is defined
+    - services_state.ansible_facts.services["firewalld.service"].state == 'running'
 
 - name: Allow consul service UDP port
   firewalld:
@@ -37,7 +39,9 @@
     - '{{ consul_port_arg.dns_interface }}'
     - '{{ consul_port_arg.serf_lan }}'
     - '{{ consul_port_arg.serf_wan }}'
-  when: services_state.ansible_facts.services["firewalld.service"].state == 'running'
+  when:
+    - services_state.ansible_facts.services["firewalld.service"] is defined
+    - services_state.ansible_facts.services["firewalld.service"].state == 'running'
 
 - name: 'Redirect port {{ consul_port_arg.dns }} to {{ consul_port_arg.dns_interface }}'
   firewalld:
@@ -49,7 +53,9 @@
   with_items:
     - 'tcp'
     - 'udp'
-  when: services_state.ansible_facts.services["firewalld.service"].state == 'running'
+  when:
+    - services_state.ansible_facts.services["firewalld.service"] is defined
+    - services_state.ansible_facts.services["firewalld.service"].state == 'running'
 
 - name: 'Redirect port {{ consul_port_arg.dns }} to {{ consul_port_arg.dns_interface }} over the loopback interface'
   shell: 'firewall-cmd --permanent --direct --add-rule ipv4 nat OUTPUT 0 -p {{ item }} -o lo --dport {{ consul_port_arg.dns }} -j REDIRECT --to-ports {{ consul_port_arg.dns_interface }} && firewall-cmd --reload'
@@ -58,4 +64,6 @@
     - 'udp'
   async: 1
   poll: 0
-  when: services_state.ansible_facts.services["firewalld.service"].state == 'running'
+  when:
+    - services_state.ansible_facts.services["firewalld.service"] is defined
+    - services_state.ansible_facts.services["firewalld.service"].state == 'running'
