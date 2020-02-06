@@ -47,7 +47,7 @@
     "serf_wan": {{ consul_port_arg.serf_wan }}
   },
   "raft_protocol": {{ consul_arg.raft_protocol }},
-  "recursors": ["{{ '", "'.join(vars["consul_recursors"]) }}"],
+  "recursors": ["{{ '", "'.join(vars["consul_dns_recursors"]) }}"],
 {% if consul_node_role == 'server' %}
   "retry_join": ["{{ consul_servers | list | join(":" + consul_port_arg.serf_lan + '", "') }}:{{ consul_port_arg.serf_lan }}"],
 {% elif consul_node_role == 'client' %}
