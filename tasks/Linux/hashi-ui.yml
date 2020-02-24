@@ -13,6 +13,9 @@
     mode: '0755'
     validate_certs: 'no'
   register: hashiui_upgrade
+  until: hashiui_upgrade is succeeded
+  retries: 3
+  delay: 3
   when:
     - not result.stat.exists
   ignore_errors: true
