@@ -23,19 +23,31 @@
     src: 'consul_exporter.bat'
     dest: 'c:\PROGRAMDATA\consul\bin\consul_exporter.bat'
 
-- name: Startup Consul exporter
-  win_command: 'c:\PROGRAMDATA\consul\bin\consul_exporter.bat'
-  async: 1
-  poll: 0
-  when: not result.stat.exists
+#- name: Startup Consul exporter
+#  win_command: 'c:\PROGRAMDATA\consul\bin\consul_exporter.bat'
+#  async: 1
+#  poll: 0
+#  when: not result.stat.exists
 
-- name: Create a task to startup Consul exporter as boot
-  win_scheduled_task:
-    name: 'HashiCorp consul exporter'
-    actions:
-    - path: 'c:\PROGRAMDATA\consul\bin\consul_exporter.bat'
-    state: present
-    enabled: yes
-    user: SYSTEM
-    triggers:
-    - type: 'boot'
+#- name: Create a task to startup Consul exporter as boot
+#  win_scheduled_task:
+#    name: 'HashiCorp consul exporter'
+#    actions:
+#    - path: 'c:\PROGRAMDATA\consul\bin\consul_exporter.bat'
+#    state: present
+#    enabled: yes
+#    user: SYSTEM
+#    triggers:
+#    - type: 'boot'
+
+- name: Create Consul exporter service
+  win_service:
+    name: 'consul_exporter'
+    path: 'cmd /c start /b c:\ProgramData\consul\bin\consul_exporter.bat'
+    display_name: 'HashiCorp Consul Exporter'
+    start_mode: 'auto'
+    state: 'started'
+    description: 'Consul Exporter'
+  no_log: true
+  changed_when: false
+  failed_when: false
