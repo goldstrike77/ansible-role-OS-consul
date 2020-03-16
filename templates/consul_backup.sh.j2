@@ -1,0 +1,18 @@
+#!/bin/sh
+
+CONSUL=/usr/local/bin/consul
+RCLONE=/bin/rclone
+RM=/bin/rm
+FIND=/bin/find
+DATE=`/bin/date '+%Y%m%d%H%M%S'`
+export CONSUL_HTTP_SSL_VERIFY=false
+export CONSUL_HTTP_ADDR={% if consul_arg.https | bool %}https{% else %}http{% endif %}://localhost:{{ consul_port_arg.http }} 
+export CONSUL_HTTP_TOKEN={{ consul_acl_arg.master_token }}
+$CONSUL snapshot save {{ consul_path }}/backup/consul/$DATE.snap >/dev/null 2>&1
+$FIND {{ consul_path }}/backup/consul -type f -mtime +{{ consul_backupset_arg.keep }} -exec $RM -fr {} \;
+{% if consul_backupset_arg.cloud_rsync | bool and consul_backupset_arg.cloud_drive is defined %}
+# Rsync for cloud storage
+$RCLONE --verbose --config="/etc/rclone/consul.conf" mkdir consul:{{ ansible_hostname | lower }}
+$RCLONE --bwlimit="{{ consul_backupset_arg.cloud_bwlimit | default('10M') }}" --verbose --config="/etc/rclone/consul.conf" {{ consul_backupset_arg.cloud_event | default('sync') }} {{ consul_path }}/backup/consul consul:{{ ansible_hostname | lower }}/consul
+{% endif %}
+exit 0

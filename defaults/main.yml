@@ -49,6 +49,18 @@ consul_arg:
   verify_outgoing: false # Enables enforce make use of TLS for outgoing connections.
   verify_server_hostname: false # Enables enforce verify the hostname of the certificate.
 
+# Backup parameters #
+consul_backupset_arg:
+  keep: '30' # The number of backups days to keep.
+  cloud_rsync: false # Whether rsync for cloud storage.
+  cloud_drive: 'azureblob' # Specify the cloud storage providers.
+  cloud_bwlimit: '10M' # Controls the bandwidth limit.
+  cloud_event: 'sync' # Define transfer events.
+  cloud_config: # Specify the cloud storage configuration.
+    account: 'blobuser' # Storage Account Name.
+    key: 'base64encodedkey==' # Storage Account Key.
+    endpoint: 'blob.core.chinacloudapi.cn' # Endpoint for the service.
+
 # ACL Variables #
 consul_acl_arg:
   enabled: true # Enables ACLs.

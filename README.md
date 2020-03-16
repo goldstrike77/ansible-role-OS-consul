@@ -81,8 +81,15 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `consul_arg.verify_outgoing`: Enables enforce make use of TLS for outgoing connections.
 * `consul_arg.verify_server_hostname`: Enables enforce verify the hostname of the certificate.
 
-##### ACL Variables
+##### Backup parameters
+* `consul_backupset_arg.keep`: The number of backups days to keep.
+* `consul_backupset_arg.cloud_rsync`: Whether rsync for cloud storage.
+* `consul_backupset_arg.cloud_drive`: Specify the cloud storage providers.
+* `consul_backupset_arg.cloud_bwlimit`: Controls the bandwidth limit.
+* `consul_backupset_arg.cloud_event`: Define transfer events.
+* `consul_backupset_arg.cloud_config`: Specify the cloud storage configuration.
 
+##### ACL Variables
 * `consul_acl_arg.enabled`: Enables ACLs.
 * `consul_acl_arg.datacenter`: Designates the datacenter which is authoritative for ACL information.
 * `consul_acl_arg.default_policy`: The policy controls when cannot be read from the primary_datacenter or leader node.
@@ -178,6 +185,16 @@ You can also use the group_vars or the host_vars files for setting the variables
       verify_incoming_https: false
       verify_outgoing: false
       verify_server_hostname: false
+    consul_backupset_arg:
+      keep: '30'
+      cloud_rsync: true
+      cloud_drive: 'azureblob'
+      cloud_bwlimit: '10M'
+      cloud_event: 'sync'
+      cloud_config:
+        account: 'blobuser'
+        key: 'base64encodedkey=='
+        endpoint: 'blob.core.chinacloudapi.cn'
     consul_acl_arg:
       enabled: true
       datacenter: '{{ consul_datacenter }}'

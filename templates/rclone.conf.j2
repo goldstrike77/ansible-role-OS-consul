@@ -1,0 +1,7 @@
+[consul]
+type = {{ consul_backupset_arg.cloud_drive }}
+{% if consul_backupset_arg.cloud_drive == 'azureblob' %}
+account = {{ consul_backupset_arg.cloud_config.account }}
+key = {{ consul_backupset_arg.cloud_config.key }}
+endpoint = {{ consul_backupset_arg.cloud_config.endpoint }}
+{% endif %}

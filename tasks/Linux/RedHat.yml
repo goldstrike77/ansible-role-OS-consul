@@ -1,4 +1,31 @@
 ---
+- name: Add EPEL YUM repositories.
+  yum_repository:
+    name: '{{ consul_epel_repo_name }}'
+    description: '{{ consul_epel_repo_name }} YUM repo'
+    file: '{{ consul_epel_repo_name }}'
+    baseurl: '{{ consul_epel_repo_url }}'
+    gpgcheck: 'no'
+    timeout: '60'
+  when:
+    - consul_backupset_arg.cloud_rsync | bool
+    - consul_backupset_arg.cloud_drive is defined
+
+- name: Install the Rclone command line program packages.
+  yum:
+    name: 'rclone'
+    state: 'present'
+    validate_certs: 'no'
+    disable_gpg_check: 'yes'
+    update_cache: 'yes'
+  register: yum_status
+  until: yum_status is succeeded
+  retries: 3
+  delay: 5
+  when:
+    - consul_backupset_arg.cloud_rsync | bool
+    - consul_backupset_arg.cloud_drive is defined
+
 - name: Install the Consul dependencies packages
   yum:
     name: '{{ consul_dependent_packages }}'
