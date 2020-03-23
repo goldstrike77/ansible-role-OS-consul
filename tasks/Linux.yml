@@ -51,6 +51,7 @@
 
 - name: Inspact the default token.
   include: '{{ ansible_system }}/token.yml'
+  when: consul_acl_arg.enabled | bool
 
 - name: Configuration the consul
   include: '{{ ansible_system }}/configureation.yml'
