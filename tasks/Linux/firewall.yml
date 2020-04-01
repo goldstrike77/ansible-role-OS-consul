@@ -45,7 +45,7 @@
 
 - name: 'Redirect port {{ consul_port_arg.dns }} to {{ consul_port_arg.dns_interface }}'
   firewalld:
-    rich_rule: 'rule family=ipv4 forward-port port={{ consul_port_arg.dns }} protocol={{ item }} to-port={{ consul_port_arg.dns_interface }}'
+    rich_rule: 'rule family=ipv4 forward-port port={{ consul_port_arg.dns }} protocol={{ item }} to-port={{ consul_port_arg.dns_interface }} to-addr={{ ansible_default_ipv4.address }}'
     zone: 'public'
     permanent: 'true'
     immediate: 'true'
