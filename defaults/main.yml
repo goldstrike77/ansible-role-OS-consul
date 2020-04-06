@@ -38,7 +38,7 @@ consul_arg:
   encrypt_verify_outgoing: true # Enables enforcing encryption for outgoing gossip.
   https: true # Enables The HTTPS API.
   key_file: 'server.key' # Provides a the file name to a PEM-encoded private key.
-  log_level: 'WARN' # The level of logging to show after the Consul agent has started.
+  log_level: 'ERR' # The level of logging to show after the Consul agent has started.
   raft_protocol: '3' # Controls the internal version of the Raft consensus protocol used for server communications.
   uid: '2011' # Sets the Unix userID that the processes are executed as.
   ulimit_nofile: '20480' # The number of files launched by systemd.
@@ -76,8 +76,8 @@ consul_dns_recursors: # Specifies the address of an upstream DNS server.
   - '119.29.29.29'
   - '8.8.8.8'
 consul_dns_service_ttl: # A TTL on service lookups with a per-service policy.
-  '*': 60s
-  web: 30s
+  '*': 120s
+  web: 60s
   app: 30s
   dbs: 5s
 
