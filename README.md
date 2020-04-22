@@ -121,6 +121,7 @@ There are some variables in vars/main.yml:
 
 ## Dependencies
 - Ansible versions >= 2.8 are supported.
+- Python >= 2.7.5
 
 ## Example
 

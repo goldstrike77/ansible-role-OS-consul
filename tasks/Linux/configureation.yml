@@ -73,7 +73,7 @@
     state: 'directory'
     owner: 'root'
     group: 'root'
-    mode: '0644'
+    mode: '0755'
   when:
     - consul_backupset_arg.cloud_rsync | bool
     - consul_backupset_arg.cloud_drive is defined
