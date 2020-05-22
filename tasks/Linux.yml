@@ -33,16 +33,6 @@
 - name: Force the handler to run immediately
   meta: flush_handlers
 
-- name: Installation the prometheus consul exporter
-  include: '{{ ansible_system }}/exporter.yml'
-  when: exporter_is_install | bool
-
-- name: Registered with HashiCorp Consul
-  include: '{{ ansible_system }}/register.yml'
-  when:
-    - exporter_is_install | bool
-    - consul_public_register | bool
-
 - name: Created policy.
   include: '{{ ansible_system }}/policy.yml'
   when:
@@ -63,3 +53,13 @@
 
 - name: Force the handler to run immediately
   meta: flush_handlers
+
+- name: Installation the prometheus consul exporter
+  include: '{{ ansible_system }}/exporter.yml'
+  when: exporter_is_install | bool
+
+- name: Registered with HashiCorp Consul
+  include: '{{ ansible_system }}/register.yml'
+  when:
+    - exporter_is_install | bool
+    - consul_public_register | bool

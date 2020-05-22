@@ -34,16 +34,16 @@
     dest: '/lib/systemd/system/consul_exporter.service'
     regexp: '^Environment=CONSUL_HTTP_TOKEN'
     insertafter: '\[Service\]'
-    line: 'Environment=CONSUL_HTTP_TOKEN={{ consul_public_exporter_token }}'
+    line: 'Environment=CONSUL_HTTP_TOKEN={{ consul_default_token.results[0].json.SecretID | default("00000000-0000-0000-0000-000000000002") }}'
   register: consul_exporter_systemd_config
   no_log: true
 
 - name: Reloading the consul exporter service
   systemd:
     name: 'consul_exporter.service'
-    enabled: yes
-    state: restarted
-    daemon_reload: yes
+    enabled: 'yes'
+    state: 'restarted'
+    daemon_reload: 'yes'
   async: 1
   poll: 0
   when:

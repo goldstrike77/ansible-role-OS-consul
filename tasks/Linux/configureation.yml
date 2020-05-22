@@ -5,7 +5,7 @@
     state: 'directory'
     owner: '{{ consul_arg.user }}'
     group: '{{ consul_arg.user }}'
-    mode: '0755'
+    mode: '0750'
   loop:
     - '/etc/consul'
     - '/etc/consul/consul.d'
@@ -18,7 +18,7 @@
     dest: '/etc/consul/config.json'
     owner: '{{ consul_arg.user }}'
     group: '{{ consul_arg.user }}'
-    mode: '0644'
+    mode: '0640'
   register: config_update
   no_log: true
 
@@ -28,7 +28,7 @@
     dest: '/etc/consul/consul.d/master.json'
     owner: '{{ consul_arg.user }}'
     group: '{{ consul_arg.user }}'
-    mode: '0644'
+    mode: '0640'
   register: acl_master_update
   when:
     - consul_node_role == 'server'
@@ -41,7 +41,7 @@
     dest: '/etc/consul/consul.d/client.json'
     owner: '{{ consul_arg.user }}'
     group: '{{ consul_arg.user }}'
-    mode: '0644'
+    mode: '0640'
   register: acl_client_update
   when:
     - consul_node_role == 'client'
@@ -54,7 +54,7 @@
     dest: '/etc/consul'
     owner: '{{ consul_arg.user }}'
     group: '{{ consul_arg.user }}'
-    mode: '0644'
+    mode: '0640'
   register: ssl_update
   no_log: true
 
@@ -73,7 +73,7 @@
     state: 'directory'
     owner: 'root'
     group: 'root'
-    mode: '0755'
+    mode: '0750'
   when:
     - consul_backupset_arg.cloud_rsync | bool
     - consul_backupset_arg.cloud_drive is defined
@@ -84,7 +84,7 @@
     dest: '/etc/rclone/consul.conf'
     owner: 'root'
     group: 'root'
-    mode: '644'
+    mode: '640'
   when:
     - consul_backupset_arg.cloud_rsync | bool
     - consul_backupset_arg.cloud_drive is defined
@@ -95,7 +95,7 @@
     dest: '/usr/local/bin/consul_backup.sh'
     owner: '{{ consul_arg.user }}'
     group: '{{ consul_arg.user }}'
-    mode: '644'
+    mode: '640'
 
 - name : Consul backup job.
   cron:
