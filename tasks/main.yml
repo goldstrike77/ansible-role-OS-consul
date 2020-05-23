@@ -2,5 +2,5 @@
 - name: Include OS-specific variables
   include_vars: '{{ ansible_os_family }}.yml'
 
-- name: Include {{ ansible_system }} operation
+- name: Include specific operating system operations
   include: '{{ ansible_system }}.yml'
