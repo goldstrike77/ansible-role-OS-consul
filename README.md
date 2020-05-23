@@ -10,6 +10,8 @@ ___
 __Table of Contents__
 
 - [Overview](#overview)
+  * [Architecture](#Architecture)
+  * [Instructions](#Instructions)
 - [Requirements](#requirements)
   * [Operating systems](#operating-systems)
   * [Consul Versions](#Consul-versions)
@@ -26,9 +28,13 @@ __Table of Contents__
 - [Contributors](#Contributors)
 
 ## Overview
-This Ansible role installs HashiCorp Consul on Linux or Windows operating system, including establishing a filesystem structure and server configuration with some common operational features. Consul is a software for DNS-based service discovery and provides distributed Key-value storage, segmentation and configuration. Registered services and nodes can be queried using a DNS interface or an HTTP interface. 
+This Ansible role installs HashiCorp Consul on Linux or Windows operating system, including establishing a filesystem structure and server configuration with some common operational features. Consul is a software for DNS-based service discovery and provides distributed Key-value storage, segmentation and configuration. Registered services and nodes can be queried using a DNS interface or an HTTP interface. Consul is a service networking solution to connect and secure services across any runtime platform and public or private cloud.
 
-<p><img style="border:1px solid black;" src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-illustration.png" /></p>
+### Architecture
+<p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-arch.png" /></p>
+
+### Instructions
+<p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-illustration.png" /></p>
 
 ## Requirements
 ### Operating systems
