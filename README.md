@@ -26,7 +26,9 @@ __Table of Contents__
 - [Contributors](#Contributors)
 
 ## Overview
-This Ansible role installs HashiCorp Consul on Linux or Windows operating system, including establishing a filesystem structure and server configuration with some common operational features.
+This Ansible role installs HashiCorp Consul on Linux or Windows operating system, including establishing a filesystem structure and server configuration with some common operational features. Consul is a software for DNS-based service discovery and provides distributed Key-value storage, segmentation and configuration. Registered services and nodes can be queried using a DNS interface or an HTTP interface. 
+
+<p><img style="border:1px solid black;" src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-illustration.png" /></p>
 
 ## Requirements
 ### Operating systems
@@ -120,7 +122,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 There are some variables in vars/main.yml:
 
 ## Dependencies
-- Ansible versions >= 2.8 are supported.
+- Ansible versions >= 2.8
 - Python >= 2.7.5
 
 ## Example
@@ -128,9 +130,13 @@ There are some variables in vars/main.yml:
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    node01 ansible_host='192.168.1.10' consul_node_role='server'
-    node02 ansible_host='192.168.1.11' consul_node_role='server'
-    node03 ansible_host='192.168.1.12' consul_node_role='server'
+    [Master]
+    node01 ansible_host='192.168.1.10'
+    node02 ansible_host='192.168.1.11'
+    node03 ansible_host='192.168.1.12'
+
+    [Master:vars]
+    consul_node_role='server'
 
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
@@ -146,9 +152,9 @@ You can also use the group_vars or the host_vars files for setting the variables
     consul_datacenter: 'dc01'
     consul_domain: 'local'
     consul_node_role: 'client'
-    consul_version: '1.5.3'
+    consul_version: '1.7.3'
     consul_hashiui_is_install: false
-    consul_hashiui_version: '1.3.0'
+    consul_hashiui_version: '1.3.8'
     consul_path: '/data'
     consul_join_servers:
       - '1.1.1.1'
