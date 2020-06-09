@@ -73,7 +73,7 @@
     state: 'directory'
     owner: 'root'
     group: 'root'
-    mode: '0750'
+    mode: '0755'
   when:
     - consul_backupset_arg.cloud_rsync | bool
     - consul_backupset_arg.cloud_drive is defined
@@ -82,8 +82,8 @@
   template:
     src: 'rclone.conf.j2'
     dest: '/etc/rclone/consul.conf'
-    owner: 'root'
-    group: 'root'
+    owner: '{{ consul_arg.user }}'
+    group: '{{ consul_arg.user }}'
     mode: '640'
   when:
     - consul_backupset_arg.cloud_rsync | bool
