@@ -10,9 +10,8 @@ ___
 __Table of Contents__
 
 - [Overview](#overview)
-  * [Architecture](#Architecture)
-  * [Instructions](#Instructions)
-  * [Advantages](#Advantages)
+- [Architecture](#Architecture)
+- [Instructions](#Instructions)
 - [Requirements](#requirements)
   * [Operating systems](#operating-systems)
   * [Consul Versions](#Consul-versions)
@@ -29,49 +28,45 @@ __Table of Contents__
 - [Contributors](#Contributors)
 
 ## Overview
-This Ansible role installs HashiCorp Consul on Linux or Windows operating system, including establishing a filesystem structure and server configuration with some common operational features. Consul is software for DNS-based service discovery and provides distributed Key/Value storage, segmentation and configuration. Registered services and nodes can be queried using a DNS interface or an HTTP interface. Consul is a service networking solution to connect and secure services across any runtime platform and public or private cloud.
+Consul is software for DNS-based service discovery and provides distributed Key/Value storage, segmentation and configuration. Registered services and nodes can be queried using a DNS interface or an HTTP interface. Consul is a service networking solution to connect and secure services across any runtime platform and public or private cloud. Consul is actually 4 services combined seamlessly into a single service. that have been combined into one. These individual services are:
 
-### Architecture
-<p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-arch.png" /></p>
-
-### Instructions
-<p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-illustration.png" /></p>
-
-### Advantages
-Consul is actually 4 services combined seamlessly into a single service. that have been combined into one. These individual services are:
-
-##### Service Discovery
+#### Service Discovery
 All boxes (Kubernetes Control Plane, MySQL servers, Nginx servers, Syslog servers, NTP server, API servers…etc) will have the consul agent daemon running on them which will notify the Consul server of its existence and the type of service it offers. The Consul server will register that box under the given service name, of which multiple other boxes can be members of. Then when DNS lookup request comes in for a given service then the Consul service will provide the IP address of one of the boxes in the service cluster, in a round-robin fashion.
 
-##### Health Checking
+#### Health Checking
 The consul agent will also give information about what health checking should be done on the box to see if it is a function.
 
-##### Key/Value Store
+#### Key/Value Store
 Applications can make use of Consul’s hierarchical Key/Value store for any number of purposes, including dynamic configuration, feature flagging, coordination, leader election, and more. The simple HTTP API makes it easy to use.
 
-##### Multi Datacenter
+#### Multi Datacenter
 Consul supports multiple datacenters out of the box. This means users of Consul do not have to worry about building additional layers of abstraction to grow to multiple regions. In Consul [Datacenter] is a logical concept that lets you can separate out your boxes into the data center. Which Datacenter a particular box belongs to is defined in that Consul agent's Consul file.
 
-What advantages it offers.
+## Architecture
+<p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-arch.png" /></p>
 
-– it can replace get rid of Internal load balancers. The round-robin DNS system and the health checking features make Consul a good alternative to Load Balancers
-– The Key/Value store is a nice tool (with a GUI frontend) that can be used for config management when Alongside Consul Templates. This is a potential alternative to tools like Puppet’s hiera.
-– you can define multiple datacenters (similar to environments) and each datacenter has it’s own Key/Value datastore. This is a powerful way to store your dev Key/Value separately from your prod Key/Value store.
-– it does health-checking of nodes in a cluster and doesn’t send traffic to nodes while they are faulty. The fact that the Health Checking Service is deeply linked to the Service, it means that the resulting DNS service that Consul provides dynamic+intelligently updates to ensure traffic only gets sent to healthy hosts.
-– health checking is done locally by the Consul agents. This means that health checking is distributed and no need to have a pool of monitoring servers (e.g. Prometheus servers) to do the health checks. This means that health checking can easily be scaled to thousands of servers without any performance issues. Traditionally health-checking is also done by Load Balancers, but that’s no longer required either with this distributed health checking setup.
-– due to the distributed health checking setup. It means that health checks can be performed at a more frequent rate, e.g. once every second! This is something that’s not possible with more traditional monitoring software, because of performance issues.
-– any health-check failures are reported using the peer-to-peer gossip protocol amongst its own cluster. This means that it reduces traffic between the Consul server and clients.
-– changes in Key/Value can result in changes in near real-time.
-– the Key/Value store is highly available – each Consul keeps an up to date local copy of the entire Key/Value store.
-– the Key/Value store can be used to add
-– you can register external services to Consul server, e.g. the official AWS NTP service.
-– Consul and docker works really well together.
+## Instructions
+What advantages it offers.
+- It can replace get rid of Internal load balancers. The round-robin DNS system and the health checking features make Consul a good alternative to Load Balancers
+- The Key/Value store is a nice tool (with a GUI frontend) that can be used for config management when Alongside Consul Templates. This is a potential alternative to tools like Puppet’s hiera.
+- You can define multiple datacenters (similar to environments) and each datacenter has it’s own Key/Value datastore. This is a powerful way to store your dev Key/Value separately from your prod Key/Value store.
+- It does health-checking of nodes in a cluster and doesn’t send traffic to nodes while they are faulty. The fact that the Health Checking Service is deeply linked to the Service, it means that the resulting DNS service that Consul provides dynamic+intelligently updates to ensure traffic only gets sent to healthy hosts.
+- Health checking is done locally by the Consul agents. This means that health checking is distributed and no need to have a pool of monitoring servers (e.g. Prometheus servers) to do the health checks. This means that health checking can easily be scaled to thousands of servers without any performance issues. Traditionally health-checking is also done by Load Balancers, but that’s no longer required either with this distributed health checking setup.
+- Due to the distributed health checking setup. It means that health checks can be performed at a more frequent rate, e.g. once every second! This is something that’s not possible with more traditional monitoring software, because of performance issues.
+- Any health-check failures are reported using the peer-to-peer gossip protocol amongst its own cluster. This means that it reduces traffic between the Consul server and clients.
+- Changes in Key/Value can result in changes in near real-time.
+- The Key/Value store is highly available – each Consul keeps an up to date local copy of the entire Key/Value store.
+- The Key/Value store can be used to add
+- You can register external services to Consul server, e.g. the official AWS NTP service.
+- Consul and docker works really well together.
+
+<p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-illustration.png" /></p>
 
 ## Requirements
 ### Operating systems
-This role will work on the following operating systems:
+This Ansible role installs HashiCorp Consul on Linux or Windows operating system, including establishing a filesystem structure and server configuration with some common operational features. This role will work on the following operating systems:
 
-  * CentOS 7
+  * CentOS 7 / Windows 2016
 
 ### Consul versions
 
