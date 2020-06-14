@@ -31,16 +31,16 @@ __Table of Contents__
 Consul is software for DNS-based service discovery and provides distributed Key/Value storage, segmentation and configuration. Registered services and nodes can be queried using a DNS interface or an HTTP interface. Consul is a service networking solution to connect and secure services across any runtime platform and public or private cloud. Consul is actually 4 services combined seamlessly into a single service. that have been combined into one. These individual services are:
 
 #### Service Discovery
-All boxes (Kubernetes Control Plane, MySQL servers, Nginx servers, Syslog servers, NTP server, API servers…etc) will have the consul agent daemon running on them which will notify the Consul server of its existence and the type of service it offers. The Consul server will register that box under the given service name, of which multiple other boxes can be members of. Then when DNS lookup request comes in for a given service then the Consul service will provide the IP address of one of the boxes in the service cluster, in a round-robin fashion.
+All boxes (Kubernetes Control Plane, MySQL servers, Nginx servers, Syslog servers, NTP server, API servers…etc) will have the Consul agent daemon running on them which will notify the Consul server of its existence and the type of service it offers. The Consul server will register that box under the given service name, of which multiple other boxes can be members of. Then when DNS lookup request comes in for a given service then the Consul service will provide the IP address of one of the boxes in the service cluster, in a round-robin fashion.
 
 #### Health Checking
-The consul agent will also give information about what health checking should be done on the box to see if it is a function.
+The Consul agent will also give information about what health checking should be done on the box to see if it is a function.
 
 #### Key/Value Store
-Applications can make use of Consul’s hierarchical Key/Value store for any number of purposes, including dynamic configuration, feature flagging, coordination, leader election, and more. The simple HTTP API makes it easy to use.
+Applications can make use of Consul's hierarchical Key/Value store for any number of purposes, including dynamic configuration, feature flagging, coordination, leader election, and more. The simple HTTP API makes it easy to use.
 
 #### Multi Datacenter
-Consul supports multiple datacenters out of the box. This means users of Consul do not have to worry about building additional layers of abstraction to grow to multiple regions. In Consul [Datacenter] is a logical concept that lets you can separate out your boxes into the data center. Which Datacenter a particular box belongs to is defined in that Consul agent's Consul file.
+Consul supports multiple datacenters out of the box. This means users of Consul do not have to worry about building additional layers of abstraction to grow to multiple regions. In Consul 'Datacenter' is a logical concept that lets you can separate out your boxes into the data center. Which Datacenter a particular box belongs to is defined in that Consul agent's Consul file.
 
 ## Architecture
 <p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-arch.png" /></p>
@@ -56,7 +56,6 @@ What advantages it offers.
 - Any health-check failures are reported using the peer-to-peer gossip protocol amongst its own cluster. This means that it reduces traffic between the Consul server and clients.
 - Changes in Key/Value can result in changes in near real-time.
 - The Key/Value store is highly available – each Consul keeps an up to date local copy of the entire Key/Value store.
-- The Key/Value store can be used to add
 - You can register external services to Consul server, e.g. the official AWS NTP service.
 - Consul and docker works really well together.
 
