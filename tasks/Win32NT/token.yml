@@ -1,6 +1,6 @@
 ---
 - name: Check exists token AccessorID
-  uri:
+  win_uri:
     url: '{{ consul_public_http_prot }}://{{ consul_join_servers[0] }}:{{ consul_public_http_port }}/v1/acl/tokens'
     method: 'GET'
     timeout: '10'
@@ -17,7 +17,7 @@
   register: check_consul_token_accessorid
 
 - name: Check default Token
-  uri:
+  win_uri:
     url: "{{ consul_public_http_prot }}://{{ consul_join_servers[0] }}:{{ consul_public_http_port }}/v1/acl/token/{{ item }}"
     method: 'GET'
     timeout: '10'
@@ -33,12 +33,12 @@
   failed_when: false
   no_log: true
   register: consul_default_token
-  until: consul_default_token.status == 200
+  until: consul_default_token.status_code == 200
   retries: 2
   delay: 2
 
 - name: Check agent Token
-  uri:
+  win_uri:
     url: "{{ consul_public_http_prot }}://{{ consul_join_servers[0] }}:{{ consul_public_http_port }}/v1/acl/token/{{ item }}"
     method: 'GET'
     timeout: '10'
@@ -54,6 +54,6 @@
   failed_when: false
   no_log: true
   register: consul_agent_token
-  until: consul_agent_token.status == 200
+  until: consul_agent_token.status_code == 200
   retries: 2
   delay: 2

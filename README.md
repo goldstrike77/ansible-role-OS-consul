@@ -12,6 +12,7 @@ __Table of Contents__
 - [Overview](#overview)
   * [Architecture](#Architecture)
   * [Instructions](#Instructions)
+  * [Advantages](#Advantages)
 - [Requirements](#requirements)
   * [Operating systems](#operating-systems)
   * [Consul Versions](#Consul-versions)
@@ -28,13 +29,43 @@ __Table of Contents__
 - [Contributors](#Contributors)
 
 ## Overview
-This Ansible role installs HashiCorp Consul on Linux or Windows operating system, including establishing a filesystem structure and server configuration with some common operational features. Consul is a software for DNS-based service discovery and provides distributed Key-value storage, segmentation and configuration. Registered services and nodes can be queried using a DNS interface or an HTTP interface. Consul is a service networking solution to connect and secure services across any runtime platform and public or private cloud.
+This Ansible role installs HashiCorp Consul on Linux or Windows operating system, including establishing a filesystem structure and server configuration with some common operational features. Consul is software for DNS-based service discovery and provides distributed Key/Value storage, segmentation and configuration. Registered services and nodes can be queried using a DNS interface or an HTTP interface. Consul is a service networking solution to connect and secure services across any runtime platform and public or private cloud.
 
 ### Architecture
 <p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-arch.png" /></p>
 
 ### Instructions
 <p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-illustration.png" /></p>
+
+### Advantages
+Consul is actually 4 services combined seamlessly into a single service. that have been combined into one. These individual services are:
+
+##### Service Discovery
+All boxes (Kubernetes Control Plane, MySQL servers, Nginx servers, Syslog servers, NTP server, API servers…etc) will have the consul agent daemon running on them which will notify the Consul server of its existence and the type of service it offers. The Consul server will register that box under the given service name, of which multiple other boxes can be members of. Then when DNS lookup request comes in for a given service then the Consul service will provide the IP address of one of the boxes in the service cluster, in a round-robin fashion.
+
+##### Health Checking
+The consul agent will also give information about what health checking should be done on the box to see if it is a function.
+
+##### Key/Value Store
+Applications can make use of Consul’s hierarchical Key/Value store for any number of purposes, including dynamic configuration, feature flagging, coordination, leader election, and more. The simple HTTP API makes it easy to use.
+
+##### Multi Datacenter
+Consul supports multiple datacenters out of the box. This means users of Consul do not have to worry about building additional layers of abstraction to grow to multiple regions. In Consul [Datacenter] is a logical concept that lets you can separate out your boxes into the data center. Which Datacenter a particular box belongs to is defined in that Consul agent's Consul file.
+
+What advantages it offers.
+
+– it can replace get rid of Internal load balancers. The round-robin DNS system and the health checking features make Consul a good alternative to Load Balancers
+– The Key/Value store is a nice tool (with a GUI frontend) that can be used for config management when Alongside Consul Templates. This is a potential alternative to tools like Puppet’s hiera.
+– you can define multiple datacenters (similar to environments) and each datacenter has it’s own Key/Value datastore. This is a powerful way to store your dev Key/Value separately from your prod Key/Value store.
+– it does health-checking of nodes in a cluster and doesn’t send traffic to nodes while they are faulty. The fact that the Health Checking Service is deeply linked to the Service, it means that the resulting DNS service that Consul provides dynamic+intelligently updates to ensure traffic only gets sent to healthy hosts.
+– health checking is done locally by the Consul agents. This means that health checking is distributed and no need to have a pool of monitoring servers (e.g. Prometheus servers) to do the health checks. This means that health checking can easily be scaled to thousands of servers without any performance issues. Traditionally health-checking is also done by Load Balancers, but that’s no longer required either with this distributed health checking setup.
+– due to the distributed health checking setup. It means that health checks can be performed at a more frequent rate, e.g. once every second! This is something that’s not possible with more traditional monitoring software, because of performance issues.
+– any health-check failures are reported using the peer-to-peer gossip protocol amongst its own cluster. This means that it reduces traffic between the Consul server and clients.
+– changes in Key/Value can result in changes in near real-time.
+– the Key/Value store is highly available – each Consul keeps an up to date local copy of the entire Key/Value store.
+– the Key/Value store can be used to add
+– you can register external services to Consul server, e.g. the official AWS NTP service.
+– Consul and docker works really well together.
 
 ## Requirements
 ### Operating systems
@@ -66,8 +97,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `consul_port_arg`: Defines communication port.
 
 ##### System Variables
-* `consul_arg.ca_file`: Provides a file name to a PEM-encoded certificate authority.
-* `consul_arg.cert_file`: Provides a file name to a PEM-encoded certificate. 
 * `consul_arg.dns_allow_stale`: Enables a stale query for DNS information.
 * `consul_arg.dns_max_stale`: Limit how stale results are allowed to be.
 * `consul_arg.enable_local_script_checks`: Enable them when they are defined in the local configuration files
@@ -77,7 +106,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `consul_arg.encrypt_verify_incoming`: Enables enforcing encryption for incoming gossip.
 * `consul_arg.encrypt_verify_outgoing`: Enables enforcing encryption for outgoing gossip.
 * `consul_arg.https`: Enables The HTTPS API.
-* `consul_arg.key_file`: Provides a the file name to a PEM-encoded private key.
 * `consul_arg.log_level`: The level of logging to show after the Consul agent has started.
 * `consul_arg.raft_protocol`: Controls the internal version of the Raft consensus protocol used for server communications.
 * `consul_arg.uid`: Sets the Unix userID that the processes are executed as.
@@ -176,8 +204,6 @@ You can also use the group_vars or the host_vars files for setting the variables
       serf_wan: '8302'
       server: '8300'
     consul_arg:
-      ca_file: 'certificate.pem'
-      cert_file: 'certificate.pem'
       dns_allow_stale: true
       dns_max_stale: '10s'
       enable_local_script_checks: true
@@ -187,7 +213,6 @@ You can also use the group_vars or the host_vars files for setting the variables
       encrypt_verify_incoming: true
       encrypt_verify_outgoing: true
       https: true
-      key_file: 'server.key'
       log_level: 'WARN'
       raft_protocol: '3'
       uid: '2011'

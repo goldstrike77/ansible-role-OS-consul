@@ -26,8 +26,6 @@ consul_port_arg: # Defines communication port.
 
 # System Variables #
 consul_arg:
-  ca_file: 'certificate.pem' # Provides a file name to a PEM-encoded certificate authority.
-  cert_file: 'certificate.pem' # Provides a file name to a PEM-encoded certificate. 
   dns_allow_stale: true # Enables a stale query for DNS information.
   dns_max_stale: '10s' # Limit how stale results are allowed to be.
   enable_local_script_checks: true # Enable them when they are defined in the local configuration files
@@ -37,7 +35,6 @@ consul_arg:
   encrypt_verify_incoming: true # Enables enforcing encryption for incoming gossip.
   encrypt_verify_outgoing: true # Enables enforcing encryption for outgoing gossip.
   https: true # Enables The HTTPS API.
-  key_file: 'server.key' # Provides a the file name to a PEM-encoded private key.
   log_level: 'ERR' # The level of logging to show after the Consul agent has started.
   raft_protocol: '3' # Controls the internal version of the Raft consensus protocol used for server communications.
   uid: '2011' # Sets the Unix userID that the processes are executed as.

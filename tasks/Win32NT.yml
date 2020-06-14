@@ -5,6 +5,10 @@
 - name: Configure the consul firewall
   include: '{{ ansible_system }}/firewall.yml'
 
+- name: Inspact the token.
+  include: '{{ ansible_system }}/token.yml'
+  when: consul_acl_arg.enabled | bool
+
 - name: Configuration the consul
   include: '{{ ansible_system }}/configureation.yml'
 

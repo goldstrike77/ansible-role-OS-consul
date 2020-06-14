@@ -1,17 +1,4 @@
 ---
-- name: Creating consul folder
-  file:
-    dest: '{{ item }}'
-    state: 'directory'
-    owner: '{{ consul_arg.user }}'
-    group: '{{ consul_arg.user }}'
-    mode: '0750'
-  loop:
-    - '/etc/consul'
-    - '/etc/consul/consul.d'
-    - '{{ consul_path }}/consul'
-    - '{{ consul_path }}/backup/consul'
-
 - name: Consul configuration file transfer
   template:
     src: 'config.json.j2'
@@ -46,16 +33,6 @@
   when:
     - consul_node_role == 'client'
     - consul_acl_arg.enabled | bool
-  no_log: true
-
-- name: Consul SSL certificate file transfer
-  copy:
-    src: 'ssl'
-    dest: '/etc/consul'
-    owner: '{{ consul_arg.user }}'
-    group: '{{ consul_arg.user }}'
-    mode: '0640'
-  register: ssl_update
   no_log: true
 
 - name: Consul systemd service file transfer

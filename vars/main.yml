@@ -3,7 +3,7 @@ consul_soft_url: 'http://releases.hashicorp.com'
 
 consul_hashiui_soft_url: 'http://github.com/jippi/hashi-ui/releases/download'
 
-consul_pypi_url: 'https://mirrors.aliyun.com/pypi/simple/'
+consul_pypi_url: 'pypi.tuna.tsinghua.edu.cn'
 
 consul_architecture:
   amd64: 'amd64'
@@ -14,8 +14,9 @@ consul_architecture:
   32-bit: '386'
   64-bit: 'amd64'
 
-consul_acl_python_dependent_packages:
+consul_python_dependent_packages:
   - 'pip'
+  - 'cryptography'
   - 'python-consul'
   - 'pyhcl'
   - 'requests'
