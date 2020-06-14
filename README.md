@@ -169,14 +169,17 @@ See tests/inventory for an example.
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
+```yaml
     - hosts: all
       roles:
          - role: ansible-role-OS-consul
            consul_node_role: 'server'
+```
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
+```yaml
     consul_datacenter: 'dc01'
     consul_domain: 'local'
     consul_node_role: 'client'
@@ -261,6 +264,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     consul_public_http_port: '8500'
     consul_public_clients:
       - '127.0.0.1'
+```
 
 ## License
 ![](https://img.shields.io/badge/MIT-purple.svg?style=for-the-badge)
