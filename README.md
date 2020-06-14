@@ -46,8 +46,8 @@ Consul supports multiple datacenters out of the box. This means users of Consul 
 <p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-arch.png" /></p>
 
 ## Instructions
-What advantages it offers.
-- It can replace get rid of Internal load balancers. The round-robin DNS system and the health checking features make Consul a good alternative to Load Balancers
+What advantages offers:
+- It can replace get rid of Internal load balancers. The round-robin DNS system and the health checking features make Consul a good alternative to Load Balancers.
 - The Key/Value store is a nice tool (with a GUI frontend) that can be used for config management when Alongside Consul Templates. This is a potential alternative to tools like Puppet’s hiera.
 - You can define multiple datacenters (similar to environments) and each datacenter has it’s own Key/Value datastore. This is a powerful way to store your dev Key/Value separately from your prod Key/Value store.
 - It does health-checking of nodes in a cluster and doesn’t send traffic to nodes while they are faulty. The fact that the Health Checking Service is deeply linked to the Service, it means that the resulting DNS service that Consul provides dynamic+intelligently updates to ensure traffic only gets sent to healthy hosts.
@@ -57,7 +57,7 @@ What advantages it offers.
 - Changes in Key/Value can result in changes in near real-time.
 - The Key/Value store is highly available – each Consul keeps an up to date local copy of the entire Key/Value store.
 - You can register external services to Consul server, e.g. the official AWS NTP service.
-- Consul and docker works really well together.
+- Consul and Docker works really well together.
 
 <p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/consul-illustration.png" /></p>
 
