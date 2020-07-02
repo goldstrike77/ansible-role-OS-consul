@@ -7,7 +7,7 @@ consul_exporter_repo_url: "http://cache.omygods.com/prometheus-rpm/release/el/{{
 consul_exporter_software: 'consul_exporter'
 
 consul_dependent_packages:
+  - 'python-pip'
   - 'openssl'
-  - 'python2-pip.noarch'
   - 'libselinux-utils'
   - 'policycoreutils-python'

@@ -16,6 +16,7 @@ consul_architecture:
 
 consul_python_dependent_packages:
   - 'pip'
+  - 'setuptools'
   - 'cryptography'
   - 'python-consul'
   - 'pyhcl'
@@ -24,9 +25,9 @@ consul_python_dependent_packages:
 consul_servers: "\
   {% set _consul_servers = [] %}\
   {% for host in groups[group_names[-1]] %}\
-    {% set _consul_datacenter = hostvars[host]['consul_datacenter'] | default('', true) %}\
-    {% set _consul_node_role = hostvars[host]['consul_node_role'] | default('client', true) %}\
-    {% if ( _consul_datacenter == hostvars[host]['consul_datacenter'] and _consul_node_role == 'server') %}\
+    {% set _consul_datacenter = consul_datacenter | default('', true) %}\
+    {% set _consul_node_role = consul_node_role | default('client', true) %}\
+    {% if ( _consul_datacenter == consul_datacenter and _consul_node_role == 'server') %}\
       {% if _consul_servers.append(hostvars[host]['ansible_host']) %}{% endif %}\
     {% endif %}\
   {% endfor %}\

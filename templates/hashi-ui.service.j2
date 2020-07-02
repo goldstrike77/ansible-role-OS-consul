@@ -10,7 +10,7 @@ StartLimitInterval=0
 User={{ consul_arg.user }}
 Environment=CONSUL_HTTP_SSL_VERIFY=false
 Environment=CONSUL_HTTP_SSL={{ consul_arg.https | bool | to_json }}
-ExecStart=/usr/local/bin/hashi-ui-{{ ansible_system|lower }}-{{ consul_architecture[ansible_architecture] }} --consul-enable -listen-address 0.0.0.0:{{ consul_port_arg.hashiui }} -https-enable -server-cert /etc/consul/ssl/{{ consul_arg.ca_file }} -server-key /etc/consul/ssl/{{ consul_arg.key_file }} -consul-acl-token {{ consul_acl_arg.master_token }} -consul-address 127.0.0.1:{{ consul_port_arg.http }}
+ExecStart=/usr/local/bin/hashi-ui-{{ ansible_system|lower }}-{{ consul_architecture[ansible_architecture] }} --consul-enable -listen-address 0.0.0.0:{{ consul_port_arg.hashiui }} -https-enable -server-cert /etc/consul/ssl/server.crt -server-key /etc/consul/ssl/server.key -consul-acl-token {{ consul_acl_arg.master_token }} -consul-address 127.0.0.1:{{ consul_port_arg.http }}
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGTERM
 

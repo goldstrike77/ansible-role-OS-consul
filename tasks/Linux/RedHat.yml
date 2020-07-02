@@ -20,8 +20,8 @@
     update_cache: 'yes'
   register: yum_status
   until: yum_status is succeeded
-  retries: 3
-  delay: 5
+  retries: 5
+  delay: 2
   when:
     - consul_backupset_arg.cloud_rsync | bool
     - consul_backupset_arg.cloud_drive is defined
@@ -34,5 +34,5 @@
     disable_gpg_check: 'yes'
   register: yum_status
   until: yum_status is succeeded
-  retries: 3
-  delay: 5
+  retries: 5
+  delay: 2

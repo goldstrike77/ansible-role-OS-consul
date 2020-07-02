@@ -43,11 +43,14 @@
     name: 'agent'
     description: 'An agent policy'
     rules: |
-      node "" {
+      node_prefix "" {
         policy = "write"
       }
       service "" {
         policy = "read"
+      }
+      key_prefix "_rexec" {
+        policy = "write"
       }
     state: 'present'
     url: '{% if not consul_arg.https %}http{% else %}https{% endif %}://127.0.0.1:{{ consul_port_arg.http }}'

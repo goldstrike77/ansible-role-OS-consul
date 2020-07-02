@@ -63,7 +63,7 @@ What advantages offers:
 
 ## Requirements
 ### Operating systems
-This Ansible role installs HashiCorp Consul on Linux or Windows operating system, including establishing a filesystem structure and server configuration with some common operational features. This role will work on the following operating systems:
+This Ansible role installs HashiCorp Consul on Linux or Windows operating system, including establishing a filesystem structure and server configuration with some common operational features, Will works on the following operating systems:
 
   * CentOS 7 / Windows 2016
 
@@ -106,6 +106,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `consul_arg.ulimit_nofile`: The number of files launched by systemd.
 * `consul_arg.ulimit_nproc`: The number of processes launched by systemd.
 * `consul_arg.user`: Sets the Unix username that the processes are executed as.
+* `consul_arg.use_cache`: A boolean value, Whether use agent caching for http endpoints.
 * `consul_arg.verify_incoming`: Enables enforce the use of TLS or verify a client's authenticity for server RPC and HTTPS API.
 * `consul_arg.verify_incoming_https`: Enables enforce the use of TLS or verify a client's authenticity for HTTPS API.
 * `consul_arg.verify_outgoing`: Enables enforce make use of TLS for outgoing connections.
@@ -138,9 +139,11 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### Service Mesh
 * `environments`: Define the service environment.
+* `datacenter`: Define the DataCenter.
+* `domain`: Define the Domain.
 * `tags`: Define the service custom label.
 * `exporter_is_install`: Whether to install prometheus exporter.
-* `consul_public_register`: false Whether register a exporter service with public consul client.
+* `consul_public_register`: Whether register a exporter service with public consul client.
 * `consul_public_exporter_token`: Public Consul client ACL token.
 * `consul_public_http_prot`: The consul Hypertext Transfer Protocol.
 * `consul_public_clients`: List of public consul clients.
@@ -170,100 +173,103 @@ See tests/inventory for an example.
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
 ```yaml
-    - hosts: all
-      roles:
-         - role: ansible-role-OS-consul
-           consul_node_role: 'server'
+- hosts: all
+  roles:
+     - role: ansible-role-OS-consul
+       consul_node_role: 'server'
 ```
 
 ### Combination of group vars and playbook
-You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
+You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`.
 
 ```yaml
-    consul_datacenter: 'dc01'
-    consul_domain: 'local'
-    consul_node_role: 'client'
-    consul_version: '1.7.3'
-    consul_hashiui_is_install: false
-    consul_hashiui_version: '1.3.8'
-    consul_path: '/data'
-    consul_join_servers:
-      - '1.1.1.1'
-      - '1.1.1.2'
-      - '1.1.1.3'
-    consul_port_arg:
-      dns: '53'
-      dns_interface: '8600'
-      exporter: '9107'
-      hashiui: '3001'
-      http: '8500'
-      serf_lan: '8301'
-      serf_wan: '8302'
-      server: '8300'
-    consul_arg:
-      dns_allow_stale: true
-      dns_max_stale: '10s'
-      enable_local_script_checks: true
-      enable_script_checks: true
-      enable_syslog: true
-      encrypt: 'i+9cwfvqtD6hw8XVKzONAw=='
-      encrypt_verify_incoming: true
-      encrypt_verify_outgoing: true
-      https: true
-      log_level: 'WARN'
-      raft_protocol: '3'
-      uid: '2011'
-      ulimit_nofile: '20480'
-      ulimit_nproc: '20480'
-      user: 'consul'
-      verify_incoming: false
-      verify_incoming_https: false
-      verify_outgoing: false
-      verify_server_hostname: false
-    consul_backupset_arg:
-      keep: '30'
-      cloud_rsync: true
-      cloud_drive: 'azureblob'
-      cloud_bwlimit: '10M'
-      cloud_event: 'sync'
-      cloud_config:
-        account: 'blobuser'
-        key: 'base64encodedkey=='
-        endpoint: 'blob.core.chinacloudapi.cn'
-    consul_acl_arg:
-      enabled: true
-      datacenter: '{{ consul_datacenter }}'
-      default_policy: 'deny'
-      down_policy: 'extend-cache'
-      master_token: '7471828c-d50a-4b25-b6a5-d80f02a03bae'
-      ttl: '30s'
-    consul_dns_recursors:
-      - '223.5.5.5'
-      - '119.29.29.29'
-      - '8.8.8.8'
-    consul_dns_service_ttl: 
-      '*': 60s
-      web: 30s
-      app: 30s
-      dbs: 5s
-    consul_performance:
-      leave_drain_time: 5s
-      raft_multiplier: 3
-      rpc_hold_timeout: 7s
-    environments: 'Development'
-    tags:
-      subscription: 'default'
-      owner: 'nobody'
-      department: 'Infrastructure'
-      organization: 'The Company'
-      region: 'IDC01'
-    exporter_is_install: false
-    consul_public_register: false
-    consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
-    consul_public_http_prot: 'https'
-    consul_public_http_port: '8500'
-    consul_public_clients:
-      - '127.0.0.1'
+consul_datacenter: 'dc01'
+consul_domain: 'local'
+consul_node_role: 'client'
+consul_version: '1.7.4'
+consul_hashiui_is_install: false
+consul_hashiui_version: '1.3.8'
+consul_path: '/data'
+consul_join_servers:
+  - '1.1.1.1'
+  - '1.1.1.2'
+  - '1.1.1.3'
+consul_port_arg:
+  dns: '53'
+  dns_interface: '8600'
+  exporter: '9107'
+  hashiui: '3001'
+  http: '8500'
+  serf_lan: '8301'
+  serf_wan: '8302'
+  server: '8300'
+consul_arg:
+  dns_allow_stale: true
+  dns_max_stale: '10s'
+  enable_local_script_checks: true
+  enable_script_checks: true
+  enable_syslog: true
+  encrypt: 'i+9cwfvqtD6hw8XVKzONAw=='
+  encrypt_verify_incoming: true
+  encrypt_verify_outgoing: true
+  https: true
+  log_level: 'WARN'
+  raft_protocol: '3'
+  uid: '2011'
+  ulimit_nofile: '20480'
+  ulimit_nproc: '20480'
+  user: 'consul'
+  use_cache: true
+  verify_incoming: false
+  verify_incoming_https: false
+  verify_outgoing: false
+  verify_server_hostname: false
+consul_backupset_arg:
+  keep: '30'
+  cloud_rsync: true
+  cloud_drive: 'azureblob'
+  cloud_bwlimit: '10M'
+  cloud_event: 'sync'
+  cloud_config:
+    account: 'blobuser'
+    key: 'base64encodedkey=='
+    endpoint: 'blob.core.chinacloudapi.cn'
+consul_acl_arg:
+  enabled: true
+  datacenter: '{{ consul_datacenter }}'
+  default_policy: 'deny'
+  down_policy: 'extend-cache'
+  master_token: '7471828c-d50a-4b25-b6a5-d80f02a03bae'
+  ttl: '30s'
+consul_dns_recursors:
+  - '223.5.5.5'
+  - '119.29.29.29'
+  - '8.8.8.8'
+consul_dns_service_ttl: 
+  '*': 60s
+  web: 30s
+  app: 30s
+  dbs: 5s
+consul_performance:
+  leave_drain_time: 5s
+  raft_multiplier: 3
+  rpc_hold_timeout: 7s
+environments: 'Development'
+datacenter: 'dc01'
+domain: 'local'
+tags:
+  subscription: 'default'
+  owner: 'nobody'
+  department: 'Infrastructure'
+  organization: 'The Company'
+  region: 'China'
+exporter_is_install: false
+consul_public_register: false
+consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
+consul_public_http_prot: 'https'
+consul_public_http_port: '8500'
+consul_public_clients:
+  - '127.0.0.1'
 ```
 
 ## License

@@ -30,6 +30,7 @@
   "encrypt_verify_incoming": {{ consul_arg.encrypt_verify_incoming | bool | to_json }},
   "encrypt_verify_outgoing": {{ consul_arg.encrypt_verify_outgoing | bool | to_json }},
   "http_config": {
+    "use_cache": {{ consul_arg.use_cache | bool | to_json }},
     "response_headers": {
       "Access-Control-Allow-Origin": "*"
     }

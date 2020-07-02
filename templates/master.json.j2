@@ -7,7 +7,6 @@
     "policy_ttl": "{{ consul_acl_arg.ttl }}",
     "tokens": {
       "master": "{{ consul_acl_arg.master_token }}",
-      "agent": "{{ consul_agent_token.results[0].json.SecretID | default('00000000-0000-0000-0000-000000000001') }}",
       "default": "{{ consul_default_token.results[0].json.SecretID | default('00000000-0000-0000-0000-000000000002') }}"
     }
   }

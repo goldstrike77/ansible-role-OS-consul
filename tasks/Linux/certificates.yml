@@ -19,7 +19,7 @@
       openssl_privatekey:
         path: '/etc/consul/ssl/server.key'
         select_crypto_backend: 'cryptography'
-        size: '2048'
+        size: '4096'
         type: 'RSA'
         owner: 'root'
         mode: '0644'
@@ -31,8 +31,9 @@
         select_crypto_backend: 'cryptography'
         common_name: 'Server'
         subject_alt_name:
-          - 'DNS:{{ ansible_hostname }}'
-          - 'DNS:{{ ansible_fqdn }}'
+          - 'DNS:{{ ansible_hostname | lower }}'
+          - 'DNS:{{ ansible_fqdn | lower }}'
+          - 'DNS:consul.service.{{ datacenter | lower }}.{{ domain | lower }}'
           - 'IP:{{ ansible_default_ipv4.address }}'
         owner: 'root'
         mode: '0644'

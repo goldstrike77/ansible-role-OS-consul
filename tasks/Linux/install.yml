@@ -50,8 +50,8 @@
     - consul_current_version.rc == 2 or consul_version not in consul_current_version.stdout
   register: consul_upgrade
   until: consul_upgrade is succeeded
-  retries: 3
-  delay: 5
+  retries: 5
+  delay: 2
 
 - name: Creating consul folder
   file:
