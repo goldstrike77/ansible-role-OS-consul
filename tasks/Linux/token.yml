@@ -11,10 +11,11 @@
       cache-control: 'no-cache'
   environment:
     no_proxy: '{{ consul_join_servers[0] }}'
-  changed_when: false
-  failed_when: false
-  no_log: true
   register: check_consul_token_accessorid
+  until: check_consul_token_accessorid.status == 200
+  retries: 5
+  delay: 2
+  no_log: true
 
 - name: Check default Token
   uri:
@@ -34,7 +35,7 @@
   no_log: true
   register: consul_default_token
   until: consul_default_token.status == 200
-  retries: 2
+  retries: 5
   delay: 2
 
 - name: Check agent Token
@@ -49,11 +50,12 @@
       cache-control: 'no-cache'
   environment:
     no_proxy: '{{ consul_join_servers[0] }}'
-  loop: "{{ check_consul_token_accessorid | json_query('json[?Description==`An agent token`].AccessorID') }}"
-  changed_when: false
-  failed_when: false
+  loop: "{{ check_consul_token_accessorid | json_query(query) | flatten }}"
+  vars:
+    query: "json[?Description=='{{ ansible_hostname | upper }}-node'].AccessorID"
   no_log: true
   register: consul_agent_token
   until: consul_agent_token.status == 200
-  retries: 2
+  retries: 5
   delay: 2
+  when: consul_node_role == 'client'

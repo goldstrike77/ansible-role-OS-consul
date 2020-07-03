@@ -39,9 +39,7 @@
 
 - name: Created policy.
   include: '{{ ansible_system }}/policy.yml'
-  when:
-    - consul_node_role == 'server'
-    - consul_servers[0] in ansible_default_ipv4.address
+  when: consul_acl_arg.enabled | bool
 
 - name: Inspact the token.
   include: '{{ ansible_system }}/token.yml'

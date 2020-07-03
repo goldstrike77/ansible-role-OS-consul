@@ -13,14 +13,18 @@
       operator = "read"
       keyring = "read"
     state: 'present'
-    url: '{% if not consul_arg.https %}http{% else %}https{% endif %}://127.0.0.1:{{ consul_port_arg.http }}'
+    url: '{% if not consul_arg.https | bool %}http{% else %}https{% endif %}://127.0.0.1:{{ consul_port_arg.http }}'
     token: '{{ consul_acl_arg.master_token }}'
     validate_certs: 'no'
   register: consul_acl_policy
+  until: consul_acl_policy is succeeded
+  retries: 5
+  delay: 2
   environment:
     no_proxy: '127.0.0.1'
-  changed_when: false
-  failed_when: false
+  when:
+    - consul_node_role == 'server'
+    - consul_servers[0] in ansible_default_ipv4.address
 
 - name: Create an default ACL token.
   consul_acl_token:
@@ -29,16 +33,69 @@
       - id: '{{ consul_acl_policy.id }}'
     local: 'false'
     state: 'present'
-    url: '{% if not consul_arg.https %}http{% else %}https{% endif %}://127.0.0.1:{{ consul_port_arg.http }}'
+    url: '{% if not consul_arg.https | bool %}http{% else %}https{% endif %}://127.0.0.1:{{ consul_port_arg.http }}'
     token: '{{ consul_acl_arg.master_token }}'
     validate_certs: 'no'
+  register: consul_acl_token
+  until: consul_acl_token is succeeded
+  retries: 5
+  delay: 2
   when:
+    - consul_node_role == 'server'
     - consul_acl_policy.operation is defined
     - consul_acl_policy.operation == "create"
+    - consul_servers[0] in ansible_default_ipv4.address
   environment:
     no_proxy: '127.0.0.1'
 
 - name: Create an agent ACL with rules.
+  consul_acl_policy:
+    name: '{{ ansible_hostname | upper }}-agent'
+    description: '{{ ansible_hostname | upper }}-node'
+    rules: |
+      node "{{ ansible_hostname | upper }}" {
+        policy = "write"
+      }
+      service_prefix "" {
+        policy = "read"
+      }
+      key_prefix "_rexec" {
+        policy = "write"
+      }
+    state: 'present'
+    url: '{% if not consul_arg.https | bool %}http{% else %}https{% endif %}://{{ consul_join_servers[0] }}:{{ consul_port_arg.http }}'
+    token: '{{ consul_acl_arg.master_token }}'
+    validate_certs: 'no'
+  register: consul_acl_policy
+  until: consul_acl_policy is succeeded
+  retries: 5
+  delay: 2
+  environment:
+    no_proxy: '{{ consul_join_servers[0] }}'
+  when: consul_node_role == 'client'
+
+- name: Create an agent ACL token.
+  consul_acl_token:
+    description: '{{ ansible_hostname | upper }}-node'
+    policies:
+      - id: '{{ consul_acl_policy.id }}'
+    local: 'false'
+    state: 'present'
+    url: '{% if not consul_arg.https | bool %}http{% else %}https{% endif %}://{{ consul_join_servers[0] }}:{{ consul_port_arg.http }}'
+    token: '{{ consul_acl_arg.master_token }}'
+    validate_certs: 'no'
+  register: consul_acl_token
+  until: consul_acl_token is succeeded
+  retries: 5
+  delay: 2
+  when:
+    - consul_node_role == 'client'
+    - consul_acl_policy.operation is defined
+    - consul_acl_policy.operation == "create"
+  environment:
+    no_proxy: '{{ consul_join_servers[0] }}'
+
+- name: Create an default agent ACL with rules for windows node.
   consul_acl_policy:
     name: 'agent'
     description: 'An agent policy'
@@ -46,34 +103,44 @@
       node_prefix "" {
         policy = "write"
       }
-      service "" {
+      service_prefix "" {
         policy = "read"
       }
       key_prefix "_rexec" {
         policy = "write"
       }
     state: 'present'
-    url: '{% if not consul_arg.https %}http{% else %}https{% endif %}://127.0.0.1:{{ consul_port_arg.http }}'
+    url: '{% if not consul_arg.https | bool %}http{% else %}https{% endif %}://127.0.0.1:{{ consul_port_arg.http }}'
     token: '{{ consul_acl_arg.master_token }}'
     validate_certs: 'no'
   register: consul_acl_policy
+  until: consul_acl_policy is succeeded
+  retries: 5
+  delay: 2
   environment:
     no_proxy: '127.0.0.1'
-  changed_when: false
-  failed_when: false
+  when:
+    - consul_node_role == 'server'
+    - consul_servers[0] in ansible_default_ipv4.address
 
-- name: Create an agent ACL token.
+- name: Create an default agent ACL token for windows node.
   consul_acl_token:
     description: 'An agent token'
     policies:
       - id: '{{ consul_acl_policy.id }}'
     local: 'false'
     state: 'present'
-    url: '{% if not consul_arg.https %}http{% else %}https{% endif %}://127.0.0.1:{{ consul_port_arg.http }}'
+    url: '{% if not consul_arg.https | bool %}http{% else %}https{% endif %}://127.0.0.1:{{ consul_port_arg.http }}'
     token: '{{ consul_acl_arg.master_token }}'
     validate_certs: 'no'
+  register: consul_acl_token
+  until: consul_acl_token is succeeded
+  retries: 5
+  delay: 2
   when:
+    - consul_node_role == 'server'
     - consul_acl_policy.operation is defined
     - consul_acl_policy.operation == "create"
+    - consul_servers[0] in ansible_default_ipv4.address
   environment:
     no_proxy: '127.0.0.1'
