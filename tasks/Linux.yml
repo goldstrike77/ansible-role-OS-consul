@@ -26,13 +26,13 @@
     - consul_node_role == 'server'
     - consul_hashiui_is_install | bool
 
-- name: Reload the hashiui service
-  shell: echo ''
-  notify: 'Ensure hashiui service is enabled'
-  when: 
-    - consul_node_role == 'server'
-    - consul_hashiui_is_install | bool
-    - hashiui_upgrade is changed or hashiui_systemd_update is changed
+#- name: Reload the hashiui service
+#  shell: echo ''
+#  notify: 'Ensure hashiui service is enabled'
+#  when: 
+#    - consul_node_role == 'server'
+#    - consul_hashiui_is_install | bool
+#    - hashiui_upgrade is changed or hashiui_systemd_update is changed
 
 - name: Force the handler to run immediately
   meta: flush_handlers
