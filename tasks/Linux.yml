@@ -88,3 +88,7 @@
   when:
     - exporter_is_install | bool
     - consul_public_register | bool
+
+- name: Include backup tasks
+  include: '{{ ansible_system }}/backup.yml'
+  when: ansible_system == 'Linux'

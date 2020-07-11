@@ -66,4 +66,3 @@
     - '/etc/consul/ssl'
     - '/etc/consul/consul.d'
     - '{{ consul_path }}/consul'
-    - '{{ consul_path }}/backup/consul'
