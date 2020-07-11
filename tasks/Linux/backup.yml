@@ -1,11 +1,14 @@
 ---
 - name: Creating consul folder.
   file:
-    dest: '{{ consul_path }}/backup/consul'
+    dest: '{{ consul_path }}/{{ item.path }}'
     state: 'directory'
-    owner: '{{ consul_arg.user }}'
-    group: '{{ consul_arg.user }}'
-    mode: '0755'
+    owner: '{{ item.owner }}'
+    group: '{{ item.owner }}'
+    mode: '{{ item.mode }}'
+  loop:
+    - { path: 'backup', owner: 'root', mode: '0755' }
+    - { path: 'backup/consul', owner: '{{ consul_arg.user }}', mode: '0640' }
 
 - name: Creating Rclone configureation folder.
   file:
