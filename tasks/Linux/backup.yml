@@ -8,7 +8,7 @@
     mode: '{{ item.mode }}'
   loop:
     - { path: 'backup', owner: 'root', mode: '0755' }
-    - { path: 'backup/consul', owner: '{{ consul_arg.user }}', mode: '0755' }
+    - { path: 'backup/consul', owner: '{{ consul_arg.user }}', mode: '0750' }
 
 - name: Creating Rclone configureation folder.
   file:

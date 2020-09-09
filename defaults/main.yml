@@ -4,7 +4,7 @@ consul_is_install: false # A boolean value, whether install the Consul.
 consul_datacenter: 'dc01' # Controls the datacenter in which the agent is running.
 consul_domain: 'local' # Controls the domain in which the agent is running.
 consul_node_role: 'client' # Defines node roles.
-consul_version: '1.7.4' # Specify the Consul version.
+consul_version: '1.8.3' # Specify the Consul version.
 consul_hashiui_is_install: false # A boolean value, whether install the Consul hashi-ui.
 consul_hashiui_version: '1.3.8' # Specify the Consul hashi-ui version.
 consul_path: '/data' # Specify the Consul data folder.
@@ -51,13 +51,18 @@ consul_arg:
 consul_backupset_arg:
   keep: '30' # The number of backups days to keep.
   cloud_rsync: false # Whether rsync for cloud storage.
-  cloud_drive: 'azureblob' # Specify the cloud storage providers.
+  cloud_drive: 'azureblob' # Specify the cloud storage providers, azureblob / s3 for minio.
   cloud_bwlimit: '10M' # Controls the bandwidth limit.
   cloud_event: 'sync' # Define transfer events.
   cloud_config: # Specify the cloud storage configuration.
+# azureblob #
     account: 'blobuser' # Storage Account Name.
     key: 'base64encodedkey==' # Storage Account Key.
     endpoint: 'blob.core.chinacloudapi.cn' # Endpoint for the service.
+# s3 #
+#    access_key: 'JPTNJFUFB6UKLUXMRKZT'
+#    secret_key: 'h9KekbhETGC1UNMcbSrWZCOrBgopdgNJWIeAo28i'
+#    endpoint: 'https://storage-production-other-minio.service.dc01.local:9001'
 
 # ACL Variables #
 consul_acl_arg:

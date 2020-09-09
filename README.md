@@ -186,7 +186,7 @@ You can also use the group_vars or the host_vars files for setting the variables
 consul_datacenter: 'dc01'
 consul_domain: 'local'
 consul_node_role: 'client'
-consul_version: '1.7.4'
+consul_version: '1.8.3'
 consul_hashiui_is_install: false
 consul_hashiui_version: '1.3.8'
 consul_path: '/data'
