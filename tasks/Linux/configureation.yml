@@ -1,13 +1,15 @@
 ---
 - name: Consul configuration file transfer.
   template:
-    src: 'config.hcl.j2'
-    dest: '/etc/consul.d/config.hcl'
+    src: 'consul.hcl.j2'
+    dest: '/etc/consul.d/consul.hcl'
     owner: 'consul'
     group: 'consul'
     mode: '0640'
   register: config_update
   no_log: true
+  notify:
+    - Enable consul service.
 
 - name: Consul master ACL policy file transfer.
   template:

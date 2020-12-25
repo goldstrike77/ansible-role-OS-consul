@@ -1,8 +1,8 @@
 ---
 - name: Consul configuration file transfer.
   win_template:
-    src: 'config.hcl.j2'
-    dest: 'c:\PROGRAMDATA\consul\consul.d\config.hcl'
+    src: 'consul.hcl.j2'
+    dest: 'c:\PROGRAMDATA\consul\consul.d\consul.hcl'
   register: config_update
   no_log: true
 
@@ -25,7 +25,7 @@
 - name: Create Consul service.
   win_service:
     name: 'consul'
-    path: 'c:\PROGRAMDATA\consul\bin\consul.exe agent -config-file="%PROGRAMDATA%\consul\consul.d\config.hcl" -config-dir="%PROGRAMDATA%\consul\consul.d" -data-dir="%PROGRAMDATA%\consul\data" -rejoin -ui'
+    path: 'c:\PROGRAMDATA\consul\bin\consul.exe agent -config-file="%PROGRAMDATA%\consul\consul.d\consul.hcl" -config-dir="%PROGRAMDATA%\consul\consul.d" -data-dir="%PROGRAMDATA%\consul\data" -rejoin -ui'
     display_name: 'HashiCorp consul'
     start_mode: 'auto'
     state: 'started'

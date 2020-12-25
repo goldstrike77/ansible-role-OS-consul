@@ -1,5 +1,5 @@
 ---
-- name: Enable consul service
+- name: Enable consul service.
   systemd:
     name: 'consul.service'
     enabled: 'yes'
@@ -7,9 +7,8 @@
     daemon_reload: 'yes'
   async: 1
   poll: 0
-  listen: Ensure consul service is enabled
 
-- name: Enable hashiui service
+- name: Enable hashiui service.
   systemd:
     name: 'hashi-ui.service'
     enabled: 'no'

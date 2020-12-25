@@ -56,3 +56,5 @@
   until: consul_upgrade is succeeded
   retries: 5
   delay: 2
+  notify:
+    - Enable consul service.
