@@ -1,5 +1,5 @@
 ---
-- name: Check register client are accessible from current host
+- name: Check register client are accessible from current host.
   uri:
     url: '{{ consul_public_http_prot }}://{{ item }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'GET'
@@ -12,7 +12,7 @@
   failed_when: false
   register: check_consul_reg
 
-- name: Register exporter service with an http health check
+- name: Register exporter service with an http health check.
   uri:
     url: '{{ consul_public_http_prot }}://{{ item.client }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'PUT'

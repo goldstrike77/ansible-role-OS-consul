@@ -1,20 +1,20 @@
 ---
-- name: Consul configuration file transfer
+- name: Consul configuration file transfer.
   template:
-    src: 'config.json.j2'
-    dest: '/etc/consul/config.json'
-    owner: '{{ consul_arg.user }}'
-    group: '{{ consul_arg.user }}'
+    src: 'config.hcl.j2'
+    dest: '/etc/consul.d/config.hcl'
+    owner: 'consul'
+    group: 'consul'
     mode: '0640'
   register: config_update
   no_log: true
 
-- name: Consul master ACL policy file transfer
+- name: Consul master ACL policy file transfer.
   template:
-    src: 'master.json.j2'
-    dest: '/etc/consul/consul.d/master.json'
-    owner: '{{ consul_arg.user }}'
-    group: '{{ consul_arg.user }}'
+    src: 'master.hcl.j2'
+    dest: '/etc/consul.d/master.hcl'
+    owner: 'consul'
+    group: 'consul'
     mode: '0640'
   register: acl_master_update
   when:
@@ -22,24 +22,15 @@
     - consul_acl_arg.enabled | bool
   no_log: true
 
-- name: Consul client ACL policy file transfer
+- name: Consul client ACL policy file transfer.
   template:
-    src: 'client.json.j2'
-    dest: '/etc/consul/consul.d/client.json'
-    owner: '{{ consul_arg.user }}'
-    group: '{{ consul_arg.user }}'
+    src: 'client.hcl.j2'
+    dest: '/etc/consul.d/client.hcl'
+    owner: 'consul'
+    group: 'consul'
     mode: '0640'
   register: acl_client_update
   when:
     - consul_node_role == 'client'
     - consul_acl_arg.enabled | bool
   no_log: true
-
-- name: Consul systemd service file transfer
-  template:
-    src: 'consul.service.j2'
-    dest: '/lib/systemd/system/consul.service'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
-  register: systemd_update

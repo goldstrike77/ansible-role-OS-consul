@@ -7,10 +7,10 @@ After=network-online.target
 Restart=always
 RestartSec=20
 StartLimitInterval=0
-User={{ consul_arg.user }}
+User=consul
 Environment=CONSUL_HTTP_SSL_VERIFY=false
 Environment=CONSUL_HTTP_SSL={{ consul_arg.https | bool | to_json }}
-ExecStart=/usr/local/bin/hashi-ui-{{ ansible_system|lower }}-{{ consul_architecture[ansible_architecture] }} --consul-enable -listen-address {{ ansible_default_ipv4.address }}:{{ consul_port_arg.hashiui }} -https-enable -server-cert /etc/consul/ssl/server.crt -server-key /etc/consul/ssl/server.key -consul-acl-token {{ consul_acl_arg.master_token }} -consul-address 127.0.0.1:{{ consul_port_arg.http }}
+ExecStart=/usr/local/bin/hashi-ui-{{ ansible_system|lower }}-{{ consul_architecture[ansible_architecture] }} --consul-enable -listen-address {{ ansible_default_ipv4.address }}:{{ consul_port_arg.hashiui }} -https-enable -server-cert /etc/consul.d/ssl/server.crt -server-key /etc/consul.d/ssl/server.key -consul-acl-token {{ consul_acl_arg.master_token }} -consul-address 127.0.0.1:{{ consul_port_arg.http }}
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGTERM
 

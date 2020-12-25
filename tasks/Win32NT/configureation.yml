@@ -1,31 +1,31 @@
 ---
-- name: Consul configuration file transfer
+- name: Consul configuration file transfer.
   win_template:
-    src: 'config.json.j2'
-    dest: 'c:\PROGRAMDATA\consul\config.json'
+    src: 'config.hcl.j2'
+    dest: 'c:\PROGRAMDATA\consul\consul.d\config.hcl'
   register: config_update
   no_log: true
 
-- name: Consul client ACL policy file transfer
+- name: Consul client ACL policy file transfer.
   win_template:
-    src: 'client.json.j2'
+    src: 'client.hcl.j2'
     dest: 'c:\PROGRAMDATA\consul\consul.d\client.json'
   register: acl_client_update
   when:
     - consul_acl_arg.enabled | bool
   no_log: true
 
-- name: Consul SSL certificate file transfer
+- name: Consul SSL certificate file transfer.
   win_copy:
     src: 'ssl'
     dest: 'c:\PROGRAMDATA\consul'
   register: ssl_update
   no_log: true
 
-- name: Create Consul service
+- name: Create Consul service.
   win_service:
     name: 'consul'
-    path: 'c:\PROGRAMDATA\consul\bin\consul.exe agent -config-file="%PROGRAMDATA%\consul\config.json" -config-dir="%PROGRAMDATA%\consul\consul.d" -data-dir="%PROGRAMDATA%\consul\data" -rejoin -ui'
+    path: 'c:\PROGRAMDATA\consul\bin\consul.exe agent -config-file="%PROGRAMDATA%\consul\consul.d\config.hcl" -config-dir="%PROGRAMDATA%\consul\consul.d" -data-dir="%PROGRAMDATA%\consul\data" -rejoin -ui'
     display_name: 'HashiCorp consul'
     start_mode: 'auto'
     state: 'started'

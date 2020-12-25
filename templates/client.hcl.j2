@@ -1,0 +1,11 @@
+primary_datacenter = "{{ consul_acl_arg.datacenter }}"
+acl = {
+  enabled = {{ consul_acl_arg.enabled | bool | to_json }}
+  default_policy = "{{ consul_acl_arg.default_policy }}"
+  down_policy = "{{ consul_acl_arg.down_policy }}"
+  policy_ttl = "{{ consul_acl_arg.ttl }}"
+  tokens = {
+    agent = "{{ consul_agent_token.results[0].json.SecretID | default('00000000-0000-0000-0000-000000000001') }}"
+    default = "{{ consul_default_token.results[0].json.SecretID | default('00000000-0000-0000-0000-000000000002') }}"
+  }
+}

@@ -11,3 +11,9 @@ consul_dependent_packages:
   - 'openssl'
   - 'libselinux-utils'
   - 'policycoreutils-python'
+
+consul_repo_name: 'hashicorp'
+consul_repo_url: 'https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable/'
+
+consul_packages:
+  - 'vault-{{ consul_version }}*'

@@ -1,7 +1,7 @@
 ---
 - name: Check private key exists.
   stat:
-    path: '/etc/consul/ssl/server.key'
+    path: '/etc/consul.d/ssl/server.key'
   register: check_cert_keys
 
 - name: Certificate Signing operation.
@@ -9,15 +9,15 @@
     - name: Selfsigned CA file transfer.
       copy:
         src: 'ssl/{{ item }}'
-        dest: '/etc/consul/ssl/{{ item }}'
-        owner: '{{ consul_arg.user }}'
+        dest: '/etc/consul.d/ssl/{{ item }}'
+        owner: 'consul'
         mode: '640'
       loop:
         - 'ca-cert.pem'
         - 'ca-key.pem'
     - name: Generate an OpenSSL private key.
       openssl_privatekey:
-        path: '/etc/consul/ssl/server.key'
+        path: '/etc/consul.d/ssl/server.key'
         select_crypto_backend: 'cryptography'
         size: '4096'
         type: 'RSA'
@@ -26,8 +26,8 @@
         state: 'present'
     - name: Generate an OpenSSL Certificate Signing Request.
       openssl_csr:
-        path: '/etc/consul/ssl/server.csr'
-        privatekey_path: '/etc/consul/ssl/server.key'
+        path: '/etc/consul.d/ssl/server.csr'
+        privatekey_path: '/etc/consul.d/ssl/server.key'
         select_crypto_backend: 'cryptography'
         common_name: 'Server'
         subject_alt_name:
@@ -40,10 +40,10 @@
         state: 'present'
     - name: Generate an OpenSSL certificate signed with your own CA certificate.
       openssl_certificate:
-        path: '/etc/consul/ssl/server.crt'
-        csr_path: '/etc/consul/ssl/server.csr'
-        ownca_path: '/etc/consul/ssl/ca-cert.pem'
-        ownca_privatekey_path: '/etc/consul/ssl/ca-key.pem'
+        path: '/etc/consul.d/ssl/server.crt'
+        csr_path: '/etc/consul.d/ssl/server.csr'
+        ownca_path: '/etc/consul.d/ssl/ca-cert.pem'
+        ownca_privatekey_path: '/etc/consul.d/ssl/ca-key.pem'
         select_crypto_backend: 'cryptography'
         ownca_not_after: '+7305d'
         provider: 'ownca'

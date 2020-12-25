@@ -102,10 +102,8 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `consul_arg.https`: Enables The HTTPS API.
 * `consul_arg.log_level`: The level of logging to show after the Consul agent has started.
 * `consul_arg.raft_protocol`: Controls the internal version of the Raft consensus protocol used for server communications.
-* `consul_arg.uid`: Sets the Unix userID that the processes are executed as.
 * `consul_arg.ulimit_nofile`: The number of files launched by systemd.
 * `consul_arg.ulimit_nproc`: The number of processes launched by systemd.
-* `consul_arg.user`: Sets the Unix username that the processes are executed as.
 * `consul_arg.use_cache`: A boolean value, Whether use agent caching for http endpoints.
 * `consul_arg.verify_incoming`: Enables enforce the use of TLS or verify a client's authenticity for server RPC and HTTPS API.
 * `consul_arg.verify_incoming_https`: Enables enforce the use of TLS or verify a client's authenticity for HTTPS API.
@@ -186,7 +184,7 @@ You can also use the group_vars or the host_vars files for setting the variables
 consul_datacenter: 'dc01'
 consul_domain: 'local'
 consul_node_role: 'client'
-consul_version: '1.8.4'
+consul_version: '1.8.7'
 consul_hashiui_is_install: false
 consul_hashiui_version: '1.3.8'
 consul_path: '/data'
@@ -209,16 +207,14 @@ consul_arg:
   enable_local_script_checks: true
   enable_script_checks: true
   enable_syslog: true
-  encrypt: 'i+9cwfvqtD6hw8XVKzONAw=='
+  encrypt: 'Ek3ceyPsJuHiWpvn/TNcUeDXiXttyMag8QTJ0qOEQOM='
   encrypt_verify_incoming: true
   encrypt_verify_outgoing: true
   https: true
   log_level: 'WARN'
   raft_protocol: '3'
-  uid: '2011'
   ulimit_nofile: '20480'
   ulimit_nproc: '20480'
-  user: 'consul'
   use_cache: true
   verify_incoming: false
   verify_incoming_https: false

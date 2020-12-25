@@ -4,7 +4,7 @@ consul_is_install: false # A boolean value, whether install the Consul.
 consul_datacenter: 'dc01' # Controls the datacenter in which the agent is running.
 consul_domain: 'local' # Controls the domain in which the agent is running.
 consul_node_role: 'client' # Defines node roles.
-consul_version: '1.8.4' # Specify the Consul version.
+consul_version: '1.8.7' # Specify the Consul version.
 consul_hashiui_is_install: false # A boolean value, whether install the Consul hashi-ui.
 consul_hashiui_version: '1.3.8' # Specify the Consul hashi-ui version.
 consul_path: '/data' # Specify the Consul data folder.
@@ -31,16 +31,14 @@ consul_arg:
   enable_local_script_checks: true # Enable them when they are defined in the local configuration files
   enable_script_checks: true # Controls whether health checks that execute scripts are enabled on this agent.
   enable_syslog: true # Enables logging to syslog.
-  encrypt: 'i+9cwfvqtD6hw8XVKzONAw==' # Create by consul keygen, Specifies the secret key to use for encryption of Consul network traffic.
+  encrypt: 'Ek3ceyPsJuHiWpvn/TNcUeDXiXttyMag8QTJ0qOEQOM=' # Create by consul keygen, Specifies the secret key to use for encryption of Consul network traffic.
   encrypt_verify_incoming: true # Enables enforcing encryption for incoming gossip.
   encrypt_verify_outgoing: true # Enables enforcing encryption for outgoing gossip.
   https: true # Enables The HTTPS API.
   log_level: 'info' # The level of logging to show after the Consul agent has started.
   raft_protocol: '3' # Controls the internal version of the Raft consensus protocol used for server communications.
-  uid: '2011' # Sets the Unix userID that the processes are executed as.
   ulimit_nofile: '65535' # The number of files launched by systemd.
   ulimit_nproc: '65535' # The number of processes launched by systemd.
-  user: 'consul' # Sets the Unix username that the processes are executed as.
   use_cache: true # A boolean value, Whether use agent caching for http endpoints.
   verify_incoming: false # Enables enforce the use of TLS or verify a client's authenticity for server RPC and HTTPS API.
   verify_incoming_https: false # Enables enforce the use of TLS or verify a client's authenticity for HTTPS API.

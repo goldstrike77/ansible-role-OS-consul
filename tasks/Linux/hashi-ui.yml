@@ -1,15 +1,15 @@
 ---
-- name: Check if hashi-ui exists
+- name: Check if hashi-ui exists.
   stat:
     path: '/usr/local/bin/hashi-ui-{{ ansible_system|lower }}-{{ consul_architecture[ansible_architecture] }}'
   register: result
 
-- name: Install hashi-ui
+- name: Install hashi-ui.
   get_url:
     url: '{{ consul_hashiui_soft_url }}/v{{ consul_hashiui_version }}/hashi-ui-{{ ansible_system|lower }}-{{ consul_architecture[ansible_architecture] }}'
     dest: '/usr/local/bin/hashi-ui-{{ ansible_system|lower }}-{{ consul_architecture[ansible_architecture] }}'
-    owner: '{{ consul_arg.user }}'
-    group: '{{ consul_arg.user }}'
+    owner: 'consul'
+    group: 'consul'
     mode: '0755'
     validate_certs: 'no'
   register: hashiui_upgrade
@@ -20,7 +20,7 @@
     - not result.stat.exists
   ignore_errors: true
 
-- name: Hashi-ui systemd service file transfer
+- name: Hashi-ui systemd service file transfer.
   template:
     src: 'hashi-ui.service.j2'
     dest: '/lib/systemd/system/hashi-ui.service'

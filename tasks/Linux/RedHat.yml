@@ -26,7 +26,7 @@
     - consul_backupset_arg.cloud_rsync | bool
     - consul_backupset_arg.cloud_drive is defined
 
-- name: Install the Consul dependencies packages
+- name: Install the Consul dependencies packages.
   yum:
     name: '{{ consul_dependent_packages }}'
     state: 'present'
@@ -34,5 +34,25 @@
     disable_gpg_check: 'yes'
   register: yum_status
   until: yum_status is succeeded
+  retries: 5
+  delay: 2
+
+- name: Add Hashicorp YUM repositories.
+  yum_repository:
+    name: '{{ consul_repo_name }}'
+    description: '{{ consul_repo_name }} YUM repository'
+    file: '{{ consul_repo_name }}'
+    baseurl: '{{ consul_repo_url }}'
+    gpgcheck: 'no'
+    timeout: '60'
+
+- name: Install the Consul.
+  yum:
+    name: '{{ consul_packages }}'
+    state: 'present'
+    validate_certs: 'no'
+    disable_gpg_check: 'yes'
+  register: consul_upgrade
+  until: consul_upgrade is succeeded
   retries: 5
   delay: 2
