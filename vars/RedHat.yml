@@ -1,9 +1,9 @@
 ---
 consul_epel_repo_name: 'epel'
-consul_epel_repo_url: 'http://mirrors.aliyun.com/epel/{{ ansible_distribution_major_version }}/$basearch/'
+consul_epel_repo_url: 'http://mirrors.aliyun.com/epel/$releasever/$basearch/'
 
 consul_exporter_repo_name: 'prometheus'
-consul_exporter_repo_url: "http://cache.omygods.com/prometheus-rpm/release/el/{{ansible_distribution_version.split('.')[0]}}/$basearch"
+consul_exporter_repo_url: 'http://cache.omygods.com/prometheus-rpm/release/el/$releasever/$basearch/'
 consul_exporter_software: 'consul_exporter'
 
 consul_dependent_packages:
@@ -13,7 +13,8 @@ consul_dependent_packages:
   - 'policycoreutils-python'
 
 consul_repo_name: 'hashicorp'
-consul_repo_url: 'https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable/'
+#consul_repo_url: 'https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable/'
+consul_repo_url: 'http://cache.omygods.com/RHEL/$releasever/'
 
 consul_packages:
   - 'consul-{{ consul_version }}*'
