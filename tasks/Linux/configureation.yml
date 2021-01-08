@@ -1,4 +1,16 @@
 ---
+- name: Consul systemd configuration.
+  lineinfile:
+    state: 'present'
+    dest: '/lib/systemd/system/consul.service'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    insertafter: '\[Service\]'
+  loop:
+    - { regexp: '^RestartSec', line: 'RestartSec=30s' }
+  notify:
+    - Enable consul service.
+
 - name: Consul configuration file transfer.
   template:
     src: 'consul.hcl.j2'
