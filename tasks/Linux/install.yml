@@ -20,3 +20,4 @@
   loop:
     - '/etc/consul.d/ssl'
     - '{{ consul_path }}/consul'
+    - '/home/consul'
