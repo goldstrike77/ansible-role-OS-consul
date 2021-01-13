@@ -53,6 +53,10 @@
     name: '{{ ansible_hostname | upper }}-agent'
     description: '{{ ansible_hostname | upper }}-node'
     rules: |
+      acl = "write"
+      node_prefix "" {
+	policy = "write"
+      }
       node "{{ ansible_hostname | upper }}" {
         policy = "write"
       }
