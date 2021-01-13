@@ -4,6 +4,7 @@
     name: 'default'
     description: 'An default policy'
     rules: |
+      acl = "write"
       node_prefix "" {
         policy = "write"
       }
@@ -104,6 +105,7 @@
     name: 'agent'
     description: 'An agent policy'
     rules: |
+      acl = "write"
       node_prefix "" {
         policy = "write"
       }
