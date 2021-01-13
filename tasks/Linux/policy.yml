@@ -56,7 +56,7 @@
     rules: |
       acl = "write"
       node_prefix "" {
-	policy = "write"
+        policy = "write"
       }
       node "{{ ansible_hostname | upper }}" {
         policy = "write"
