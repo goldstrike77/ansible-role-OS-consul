@@ -17,7 +17,7 @@ consul_architecture:
 consul_python_dependent_packages:
   - 'pip==20.3.4'
   - 'setuptools'
-  - 'cryptography'
+  - 'cryptography==2.4.2'
   - 'python-consul'
   - 'pyhcl'
   - 'requests'
