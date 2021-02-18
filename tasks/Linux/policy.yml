@@ -51,14 +51,14 @@
 
 - name: Create an agent ACL with rules.
   consul_acl_policy:
-    name: '{{ ansible_hostname | upper }}-agent'
-    description: '{{ ansible_hostname | upper }}-node'
+    name: '{{ ansible_hostname | lower }}-agent'
+    description: '{{ ansible_hostname | lower }}-node'
     rules: |
       acl = "write"
       node_prefix "" {
         policy = "write"
       }
-      node "{{ ansible_hostname | upper }}" {
+      node "{{ ansible_hostname | lower }}" {
         policy = "write"
       }
       service_prefix "" {
@@ -81,7 +81,7 @@
 
 - name: Create an agent ACL token.
   consul_acl_token:
-    description: '{{ ansible_hostname | upper }}-node'
+    description: '{{ ansible_hostname | lower }}-node'
     policies:
       - id: '{{ consul_acl_policy.id }}'
     local: 'false'

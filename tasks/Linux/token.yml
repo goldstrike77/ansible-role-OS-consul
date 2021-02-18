@@ -52,7 +52,7 @@
     no_proxy: '{{ consul_join_servers[0] }}'
   loop: "{{ check_consul_token_accessorid | json_query(query) | flatten }}"
   vars:
-    query: "json[?Description=='{{ ansible_hostname | upper }}-node'].AccessorID"
+    query: "json[?Description=='{{ ansible_hostname | lower }}-node'].AccessorID"
   no_log: true
   register: consul_agent_token
   until: consul_agent_token.status == 200
