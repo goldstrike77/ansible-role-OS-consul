@@ -3,7 +3,7 @@
   pip:
     name: '{{ item }}'
     state: 'forcereinstall'
-    extra_args: '--default-timeout=120 --ignore-installed -i https://{{ consul_pypi_url }}/simple --trusted-host {{ consul_pypi_url }}'
+    extra_args: '--default-timeout=120 -i https://{{ consul_pypi_url }}/simple --trusted-host {{ consul_pypi_url }}'
   register: python_status
   loop: '{{ consul_python_dependent_packages }}'
   until: python_status is succeeded
