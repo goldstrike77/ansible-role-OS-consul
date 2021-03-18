@@ -35,7 +35,7 @@ consul_arg:
   encrypt_verify_incoming: true # Enables enforcing encryption for incoming gossip.
   encrypt_verify_outgoing: true # Enables enforcing encryption for outgoing gossip.
   https: true # Enables The HTTPS API.
-  log_level: 'info' # The level of logging to show after the Consul agent has started.
+  log_level: 'err' # The level of logging to show after the Consul agent has started.
   raft_protocol: '3' # Controls the internal version of the Raft consensus protocol used for server communications.
   ulimit_nofile: '65535' # The number of files launched by systemd.
   ulimit_nproc: '65535' # The number of processes launched by systemd.
