@@ -26,6 +26,7 @@ __Table of Contents__
 - [License](#license)
 - [Author Information](#author-information)
 - [Contributors](#Contributors)
+- [Donations](#Donations)
 
 ## Overview
 Consul is software for DNS-based service discovery and provides distributed Key/Value storage, segmentation and configuration. Registered services and nodes can be queried using a DNS interface or an HTTP interface. Consul is a service networking solution to connect and secure services across any runtime platform and public or private cloud. Consul is actually 4 services combined seamlessly into a single service. that have been combined into one. These individual services are:
@@ -278,3 +279,8 @@ Please send your suggestions to make this role better.
 
 ## Contributors
 Special thanks to the [Connext Information Technology](http://www.connext.com.cn) for their contributions to this role.
+
+## Donations
+Please donate to the following monero address.
+
+    46CHVMbb6wQV2PJYEbahb353SYGqXhcdFQVEWdCnHb6JaR5125h3kNQ6bcqLye5G7UF7qz6xL9qHLDSAY3baagfmLZABz75

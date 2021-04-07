@@ -4,7 +4,7 @@
     name: 'default'
     description: 'An default policy'
     rules: |
-      acl = "write"
+      acl = "read"
       node_prefix "" {
         policy = "write"
       }
