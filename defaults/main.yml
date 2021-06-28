@@ -1,12 +1,12 @@
 ---
 # General parameters #
 consul_is_install: false # A boolean value, whether install the Consul.
+consul_node_role: 'client' # Defines node roles.
 consul_datacenter: 'dc01' # Controls the datacenter in which the agent is running.
 consul_domain: 'local' # Controls the domain in which the agent is running.
-consul_node_role: 'client' # Defines node roles.
-consul_version: '1.9.1' # Specify the Consul version.
+consul_version: '1.9.7' # Specify the Consul version.
 consul_hashiui_is_install: false # A boolean value, whether install the Consul hashi-ui.
-consul_hashiui_version: '1.3.8' # Specify the Consul hashi-ui version.
+consul_hashiui_version: '1.3.9' # Specify the Consul hashi-ui version.
 consul_path: '/data' # Specify the Consul data folder.
 consul_join_servers: # Address list of servers to join upon starting up.
   - '1.1.1.1'

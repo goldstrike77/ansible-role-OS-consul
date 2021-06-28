@@ -25,7 +25,6 @@ __Table of Contents__
   * [Combination of group vars and playbook](#combination-of-group-vars-and-playbook)
 - [License](#license)
 - [Author Information](#author-information)
-- [Contributors](#Contributors)
 - [Donations](#Donations)
 
 ## Overview
@@ -186,9 +185,9 @@ You can also use the group_vars or the host_vars files for setting the variables
 consul_datacenter: 'dc01'
 consul_domain: 'local'
 consul_node_role: 'client'
-consul_version: '1.9.1'
+consul_version: '1.9.7'
 consul_hashiui_is_install: false
-consul_hashiui_version: '1.3.8'
+consul_hashiui_version: '1.3.9'
 consul_path: '/data'
 consul_join_servers:
   - '1.1.1.1'
@@ -276,9 +275,6 @@ consul_public_clients:
 
 ## Author Information
 Please send your suggestions to make this role better.
-
-## Contributors
-Special thanks to the [Connext Information Technology](http://www.connext.com.cn) for their contributions to this role.
 
 ## Donations
 Please donate to the following monero address.
