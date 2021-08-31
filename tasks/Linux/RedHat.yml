@@ -6,6 +6,7 @@
     file: '{{ consul_epel_repo_name }}'
     baseurl: '{{ consul_epel_repo_url }}'
     gpgcheck: 'no'
+    sslverify: 'no'
     timeout: '60'
   when:
     - consul_backupset_arg.cloud_rsync | bool
@@ -44,6 +45,7 @@
     file: '{{ consul_repo_name }}'
     baseurl: '{{ consul_repo_url }}'
     gpgcheck: 'no'
+    sslverify: 'no'
     timeout: '60'
 
 - name: Install the Consul.

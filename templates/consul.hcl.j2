@@ -52,6 +52,9 @@
   "recursors": ["{{ '", "'.join(vars["consul_dns_recursors"]) }}"],
 {% if consul_node_role == 'server' %}
   "retry_join": ["{{ consul_servers | list | join(":" + consul_port_arg.serf_lan + '", "') }}:{{ consul_port_arg.serf_lan }}"],
+{% if consul_join_wan_servers is defined %}
+  "retry_join_wan": ["{{ consul_join_wan_servers | list | join(":" + consul_port_arg.serf_wan + '", "') }}:{{ consul_port_arg.serf_wan }}"],
+{% endif %}
 {% elif consul_node_role == 'client' %}
   "retry_join": ["{{ consul_join_servers | list | join(":" + consul_port_arg.serf_lan + '", "') }}:{{ consul_port_arg.serf_lan }}"],
 {% endif %}

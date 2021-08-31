@@ -13,8 +13,8 @@ consul_dependent_packages:
   - 'policycoreutils-python'
 
 consul_repo_name: 'hashicorp'
-#consul_repo_url: 'https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable/'
-consul_repo_url: 'http://cache.omygods.com/RHEL/$releasever/'
+consul_repo_url: 'https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable/'
+#consul_repo_url: 'http://cache.omygods.com/RHEL/$releasever/'
 
 consul_packages:
   - 'consul-{{ consul_version }}*'

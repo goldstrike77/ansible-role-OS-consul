@@ -12,6 +12,7 @@
     group: 'consul'
     mode: '0755'
     validate_certs: 'no'
+    timeout: '120'
   register: hashiui_upgrade
   until: hashiui_upgrade is succeeded
   retries: 3

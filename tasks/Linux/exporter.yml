@@ -6,6 +6,7 @@
     file: '{{ consul_exporter_repo_name }}'
     baseurl: '{{ consul_exporter_repo_url }}'
     gpgcheck: 'no'
+    sslverify: 'no'
     timeout: '60'
 
 - name: Install the consul exporter

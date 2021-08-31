@@ -86,6 +86,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `consul_hashiui_version`: Specify the Consul hashi-ui version.
 * `consul_path`: Specify the Consul data folder.
 * `consul_join_servers`: Address list of servers to join upon starting up.
+* `consul_join_wan_servers`: WAN Address list of servers to join upon starting up.
 
 ##### Listen port
 * `consul_port_arg`: Defines communication port.
@@ -185,9 +186,9 @@ You can also use the group_vars or the host_vars files for setting the variables
 consul_datacenter: 'dc01'
 consul_domain: 'local'
 consul_node_role: 'client'
-consul_version: '1.9.7'
+consul_version: '1.9.9'
 consul_hashiui_is_install: false
-consul_hashiui_version: '1.3.9'
+consul_hashiui_version: '1.3.8'
 consul_path: '/data'
 consul_join_servers:
   - '1.1.1.1'
