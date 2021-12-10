@@ -6,15 +6,13 @@
   "ca_file": "/etc/consul.d/ssl/ca-cert.pem",
   "cert_file": "/etc/consul.d/ssl/server.crt",
   "key_file": "/etc/consul.d/ssl/server.key",
+  "client_addr": "127.0.0.1 {{ ansible_default_ipv4.address }}",
+  "data_dir": "{{ consul_path }}/consul",
 {% else %}
   "ca_file": "c:\\PROGRAMDATA\\consul\\ssl\\ca-cert.pem",
   "cert_file": "c:\\PROGRAMDATA\\consul\\ssl\\server.crt",
   "key_file": "c:\\PROGRAMDATA\\consul\\ssl\\server.key",
-{% endif %}
-  "client_addr": "127.0.0.1 {{ ansible_default_ipv4.address }}",
-{% if ansible_system == 'Linux' %}
-  "data_dir": "{{ consul_path }}/consul",
-{% else %}
+  "client_addr": "127.0.0.1 {{ ansible_ip_addresses[0] }}",
   "data_dir": "c:\\PROGRAMDATA\\consul\\data",
 {% endif %}
   "datacenter": "{{ consul_datacenter | lower }}",

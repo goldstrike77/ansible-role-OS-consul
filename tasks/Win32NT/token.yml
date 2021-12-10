@@ -5,9 +5,10 @@
     method: 'GET'
     timeout: '10'
     validate_certs: 'no'
+    return_content: 'yes'
     headers:
       X-Consul-Token: '{{ consul_acl_arg.master_token }}'
-      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      X-Requested-By: '{{ ansible_ip_addresses[0] }}'
       cache-control: 'no-cache'
   environment:
     no_proxy: '{{ consul_join_servers[0] }}'
@@ -23,9 +24,10 @@
     method: 'GET'
     timeout: '10'
     validate_certs: 'no'
+    return_content: 'yes'
     headers:
       X-Consul-Token: '{{ consul_acl_arg.master_token }}'
-      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      X-Requested-By: '{{ ansible_ip_addresses[0] }}'
       cache-control: 'no-cache'
   environment:
     no_proxy: '{{ consul_join_servers[0] }}'
@@ -42,9 +44,10 @@
     method: 'GET'
     timeout: '10'
     validate_certs: 'no'
+    return_content: 'yes'
     headers:
       X-Consul-Token: '{{ consul_acl_arg.master_token }}'
-      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      X-Requested-By: '{{ ansible_ip_addresses[0] }}'
       cache-control: 'no-cache'
   environment:
     no_proxy: '{{ consul_join_servers[0] }}'
