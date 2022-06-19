@@ -1,6 +1,6 @@
 ---
 consul_epel_repo_name: 'epel'
-consul_epel_repo_url: 'http://mirrors.tuna.tsinghua.edu.cn/epel/$releasever/$basearch/'
+consul_epel_repo_url: 'http://mirrors.aliyun.com/epel/$releasever{% if ansible_distribution_major_version | int > 7 %}/Everything{% endif %}/$basearch/'
 
 consul_exporter_repo_name: 'prometheus'
 consul_exporter_repo_url: 'http://cache.omygods.com/prometheus-rpm/release/el/$releasever/$basearch/'

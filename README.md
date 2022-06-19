@@ -65,7 +65,9 @@ What advantages offers:
 ### Operating systems
 This Ansible role installs HashiCorp Consul on Linux or Windows operating system, including establishing a filesystem structure and server configuration with some common operational features, Will works on the following operating systems:
 
-  * CentOS 7 / Windows 2016
+  * CentOS 7
+  * Rocky 8
+  * Windows 2016
 
 ### Consul versions
 
@@ -281,3 +283,4 @@ Please send your suggestions to make this role better.
 Please donate to the following monero address.
 
     46CHVMbb6wQV2PJYEbahb353SYGqXhcdFQVEWdCnHb6JaR5125h3kNQ6bcqLye5G7UF7qz6xL9qHLDSAY3baagfmLZABz75
+<p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/xmr_address.png" align="left" /></p>
