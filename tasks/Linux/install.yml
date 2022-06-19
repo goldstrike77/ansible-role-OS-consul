@@ -5,7 +5,7 @@
     state: 'present'
     extra_args: '--default-timeout=120 -i https://{{ consul_pypi_url }}/simple --trusted-host {{ consul_pypi_url }}'
   register: python_status
-  loop: '{{ consul_python_dependent_packages }}'
+  loop: "{{ vars['consul_python_dependent_packages_' + ansible_distribution_major_version] }}"
   until: python_status is succeeded
   retries: 5
   delay: 2

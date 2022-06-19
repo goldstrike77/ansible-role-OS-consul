@@ -29,7 +29,7 @@
 
 - name: Install the Consul dependencies packages.
   yum:
-    name: '{{ consul_dependent_packages }}'
+    name: "{{ vars['consul_dependent_packages_' + ansible_distribution_major_version] }}"
     state: 'present'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
@@ -58,5 +58,4 @@
   until: consul_upgrade is succeeded
   retries: 5
   delay: 2
-  notify:
-    - Enable consul service.
+  notify: Enable consul service.

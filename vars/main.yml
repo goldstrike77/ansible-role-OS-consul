@@ -14,18 +14,6 @@ consul_architecture:
   32-bit: '386'
   64-bit: 'amd64'
 
-consul_python_dependent_packages:
-  - 'pip==20.3.4'
-  - 'cffi==1.14.6'
-  - 'idna==2.10'
-  - 'cryptography==2.4.2'
-  - 'paramiko==2.4.3'
-  - 'pyopenssl==19.0.0'
-  - 'setuptools'
-  - 'python-consul'
-  - 'pyhcl'
-  - 'requests'
-
 consul_servers: "\
   {% set _consul_servers = [] %}\
   {% for host in groups[group_names[0]] %}\

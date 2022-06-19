@@ -6,11 +6,42 @@ consul_exporter_repo_name: 'prometheus'
 consul_exporter_repo_url: 'http://cache.omygods.com/prometheus-rpm/release/el/$releasever/$basearch/'
 consul_exporter_software: 'consul_exporter'
 
-consul_dependent_packages:
+consul_dependent_packages_7:
   - 'python-pip'
   - 'openssl'
   - 'libselinux-utils'
   - 'policycoreutils-python'
+
+consul_dependent_packages_8:
+  - 'python3-pip'
+  - 'openssl'
+  - 'libselinux-utils'
+  - 'python3-policycoreutils'
+
+consul_python_dependent_packages_7:
+  - 'pip==20.3.4'
+  - 'cffi==1.14.6'
+  - 'idna==2.10'
+  - 'cryptography==2.4.2'
+  - 'paramiko==2.4.3'
+  - 'pyopenssl==19.0.0'
+  - 'setuptools'
+  - 'python-consul'
+  - 'pyhcl'
+  - 'requests'
+
+consul_python_dependent_packages_8:
+  - 'pip==21.2.4'
+  - 'setuptools-rust'
+  - 'cffi'
+  - 'idna'
+  - 'cryptography'
+  - 'paramiko'
+  - 'pyopenssl'
+  - 'setuptools'
+  - 'python-consul'
+  - 'pyhcl'
+  - 'requests'
 
 consul_repo_name: 'hashicorp'
 consul_repo_url: 'https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable/'
