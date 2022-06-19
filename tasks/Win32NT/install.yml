@@ -37,7 +37,7 @@
 
 - name: Get consul
   win_get_url:
-    url: '{{ consul_soft_url }}/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ ansible_distribution_file_variety | lower }}_{{ consul_architecture[ansible_architecture] }}.zip'
+    url: '{{ consul_soft_url }}/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ ansible_os_family | lower }}_{{ consul_architecture[ansible_architecture] }}.zip'
     dest: 'c:\PROGRAMDATA\consul'
     proxy_url: '{{ os_proxy_server | default(omit,true) }}'
     timeout: 60
@@ -50,7 +50,7 @@
 
 - name: Install consul
   win_unzip:
-    src: 'c:\PROGRAMDATA\consul\consul_{{ consul_version }}_{{ ansible_distribution_file_variety | lower }}_{{ consul_architecture[ansible_architecture] }}.zip'
+    src: 'c:\PROGRAMDATA\consul\consul_{{ consul_version }}_{{ ansible_os_family | lower }}_{{ consul_architecture[ansible_architecture] }}.zip'
     dest: 'c:\PROGRAMDATA\consul\bin'
     rm: 'yes'
   when:

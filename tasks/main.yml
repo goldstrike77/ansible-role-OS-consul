@@ -1,6 +1,11 @@
 ---
-- name: Include OS-specific variables
+- name: Include OS-specific variables.
   include_vars: '{{ ansible_distribution_file_variety }}.yml'
+  when: ansible_system == "Linux"
 
-- name: Include specific operating system operations
+- name: Include OS-specific variables.
+  include_vars: 'Windows.yml'
+  when: ansible_system == "Win32NT"
+
+- name: Include specific operating system operations.
   include: '{{ ansible_system }}.yml'
